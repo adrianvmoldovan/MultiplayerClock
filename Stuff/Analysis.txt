@@ -1,0 +1,32 @@
+
+
+3 edges => 90 degrees  =>PI/2
+4 edges => 45 degrees  =>PI/4
+5 edges => 90 degrees  =>PI/2
+6 edges => 0 degrees   =>0
+7 edges => 90 degrees  =>PI/2
+8 edges => 90 degrees  =>PI/8
+
+1. Pagina Timer
+	a. Player
+		- name
+		- time
+		- color
+	b. Game
+		- players
+		- start game
+		- get time from player and increase it
+		- next player functionality
+	c. View
+		- Create triangles programatically with the help of BoardCreator
+	d. BoardCreator
+		- calculate shapes and return a Board object
+	e. Board
+		- contains List<PlayerView>, PauseCircle
+	f. PlayerView
+		- contains a Path, Backgroud color, text label, time as text
+	g. PauseCircle
+		-
+
+
+View should contain ViewModel ????
