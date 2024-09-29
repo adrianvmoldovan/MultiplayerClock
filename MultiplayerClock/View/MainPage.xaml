@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MultiplayerClock"
+             x:Class="MultiplayerClock.MainPage">
+
+    <Grid 
+        RowDefinitions="Auto, Auto, Auto"
+        ColumnDefinitions="*, *"
+        Padding="30">
+
+        <Label 
+            Text="Game type"
+            VerticalOptions="Center"
+            FontSize="20"/>
+
+        <Picker 
+            Grid.Column="1"
+            Title="Game Type"
+            VerticalOptions="Center"
+            FontSize="20"
+            ItemsSource="{Binding AvailableGameTypes}"
+            SelectedItem="{Binding SelectedGameType}"/>
+
+        <CollectionView 
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding Players}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                <SwipeView>
+                    <SwipeView.RightItems>
+                        <SwipeItems>
+                            <SwipeItem 
+                                Text="Delete"
+                                BackgroundColor="Red"/>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    <Grid 
+                        ColumnDefinitions=".7*, Auto, .3*"
+                        Padding="5">
+                        <Entry Grid.Column="0"
+                            Text="{Binding Name}"
+                                FontSize="18"/>
+                        <Button Grid.Column="1"
+                            Text=""
+                            BackgroundColor="{Binding Color}"/>
+                        <TimePicker  
+                            Grid.Column="2"
+                            Time="{Binding Time}"
+                            Format="hh:mm:ss"
+                            FontSize="18"/>
+                    </Grid>
+                </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="1"
+            ColumnSpacing="2"
+            HorizontalOptions="End"
+            ColumnDefinitions="Auto, Auto">
+            <Label 
+                Text="Use the same time"
+                VerticalOptions="Center"
+                FontSize="20"/>
+            <CheckBox
+                Grid.Column="1"
+                VerticalOptions="Center"
+                IsChecked="{Binding UseSameTime}"/>
+        </Grid>
+    </Grid>
+
+</ContentPage>
