@@ -26,10 +26,10 @@ namespace MultiplayerClock.ViewModel
 
         public ObservableCollection<Player> Players { get; set; }
 
-        public MainPageVM(int numberOfPlayers)
+        public MainPageVM()
         {
             Players = new ObservableCollection<Player>();
-            _players.ForEach(p => { if (Players.Count < numberOfPlayers) Players.Add(p); });
+            _players.ForEach(p => Players.Add(p));
 
             _selectedGameType = GameType.Classic;
             _availableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };

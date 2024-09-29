@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MultiplayerClock"
-             x:Class="MultiplayerClock.MainPage">
+             x:Class="MultiplayerClock.MainPage"
+             xmlns:viewModel="clr-namespace:MultiplayerClock.ViewModel"
+             xmlns:model="clr-namespace:MultiplayerClock.Model"
+             x:DataType="viewModel:MainPageVM">
 
     <Grid 
         RowDefinitions="Auto, Auto, Auto"
@@ -28,31 +31,31 @@
             Grid.ColumnSpan="2"
             ItemsSource="{Binding Players}">
             <CollectionView.ItemTemplate>
-                <DataTemplate>
-                <SwipeView>
-                    <SwipeView.RightItems>
-                        <SwipeItems>
-                            <SwipeItem 
-                                Text="Delete"
-                                BackgroundColor="Red"/>
-                        </SwipeItems>
-                    </SwipeView.RightItems>
-                    <Grid 
-                        ColumnDefinitions=".7*, Auto, .3*"
-                        Padding="5">
-                        <Entry Grid.Column="0"
-                            Text="{Binding Name}"
+                <DataTemplate x:DataType="model:Player">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem 
+                                    Text="Delete"
+                                    BackgroundColor="Red"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid 
+                            ColumnDefinitions=".7*, Auto, .3*"
+                            Padding="5">
+                            <Entry Grid.Column="0"
+                                Text="{Binding Name}"
+                                    FontSize="18"/>
+                            <Button Grid.Column="1"
+                                Text=""
+                                BackgroundColor="{Binding Color}"/>
+                            <TimePicker  
+                                Grid.Column="2"
+                                Time="{Binding Time}"
+                                Format="hh:mm:ss"
                                 FontSize="18"/>
-                        <Button Grid.Column="1"
-                            Text=""
-                            BackgroundColor="{Binding Color}"/>
-                        <TimePicker  
-                            Grid.Column="2"
-                            Time="{Binding Time}"
-                            Format="hh:mm:ss"
-                            FontSize="18"/>
-                    </Grid>
-                </SwipeView>
+                        </Grid>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

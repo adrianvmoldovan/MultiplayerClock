@@ -14,14 +14,8 @@ namespace MultiplayerClock.Model
         private Color _color;
         private DateTime _time;
 
-        //public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler? PropertyChanged;
 
-        public Player()
-        {
-            _name = "";
-            _color = Colors.Black;
-            _time = DateTime.Now;
-        }
         public Player(string name, Color color)
         {
             _name = name;
