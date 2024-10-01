@@ -7,10 +7,6 @@
              xmlns:model    ="clr-namespace:MultiplayerClock.Model"
              x:DataType     ="viewModel:MainPageVM">
 
-    <ContentPage.BindingContext>
-        <viewModel:MainPageVM />
-    </ContentPage.BindingContext>
-    
     <Grid 
         RowDefinitions="Auto, Auto, Auto, *"
         ColumnDefinitions="*, *"

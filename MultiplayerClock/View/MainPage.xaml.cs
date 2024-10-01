@@ -1,10 +1,13 @@
-﻿namespace MultiplayerClock
+﻿using MultiplayerClock.ViewModel;
+
+namespace MultiplayerClock
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(MainPageVM vm)
         {
             InitializeComponent();
+            BindingContext = vm;
         }
     }
 }
