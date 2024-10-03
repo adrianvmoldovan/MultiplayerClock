@@ -10,45 +10,45 @@ namespace MultiplayerClock.Model
 {
     public class Player /*: INotifyPropertyChanged*/
     {
-        private string _name;
-        private Color _color;
-        private DateTime _time;
+        private string _Name;
+        private Color _Color;
+        private DateTime _Time;
 
         //public event PropertyChangedEventHandler? PropertyChanged;
 
         public Player(string name, Color color)
         {
-            _name = name;
-            _color = color;
-            _time = DateTime.Now;
+            _Name = name;
+            _Color = color;
+            _Time = DateTime.Now;
         }
 
         public string Name
         {
-            get { return _name; }
+            get { return _Name; }
             set
             {
-                _name = value;
+                _Name = value;
                 //OnPropertyChanged(nameof(Name));
             }
         }
 
         public Color Color
         {
-            get { return _color; }
+            get { return _Color; }
             set
             {
-                _color = value;
+                _Color = value;
                 //OnPropertyChanged(nameof(Color));
             }
         }
 
         public DateTime Time
         {
-            get { return _time; }
+            get { return _Time; }
             set
             {
-                _time = value;
+                _Time = value;
                 //OnPropertyChanged(nameof(Time));
             }
         }

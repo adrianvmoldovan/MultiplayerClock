@@ -12,7 +12,7 @@ namespace MultiplayerClock.ViewModel
 {
     public class MainPageVM : INotifyPropertyChanged
     {
-        private List<Player> _players = new List<Player>
+        private List<Player> _Players = new List<Player>
         {
             new Player("Adi" , Colors.Blue  ),
             new Player("Cami", Colors.Red   ),
@@ -20,12 +20,12 @@ namespace MultiplayerClock.ViewModel
             new Player("Emi" , Colors.Violet),
         };
 
-        private GameType       _selectedGameType  ;
-        private List<GameType> _availableGameTypes;
-        private bool           _useSameTime       ;
-        private string         _newPlayerName     ;
-        private Color          _newPlayerColor    ;
-        private Color          _defaultColor = Color.FromArgb("512BD4");
+        private GameType       _SelectedGameType  ;
+        private List<GameType> _AvailableGameTypes;
+        private bool           _UseSameTime       ;
+        private string         _NewPlayerName     ;
+        private Color          _NewPlayerColor    ;
+        private Color          _DefaultColor = Color.FromArgb("512BD4");
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -34,15 +34,15 @@ namespace MultiplayerClock.ViewModel
         public MainPageVM()
         {
             Players = new ObservableCollection<Player>();
-            _players.ForEach(p => Players.Add(p));
+            _Players.ForEach(p => Players.Add(p));
 
-            _selectedGameType   = GameType.Classic;
-            _availableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
-            _useSameTime        = true;
+            _SelectedGameType   = GameType.Classic;
+            _AvailableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
+            _UseSameTime        = true;
             AddPlayerCommand    = new Command(AddPlayer);
             DeletePlayerCommand = new Command<Player>(DeletePlayer);
-            _newPlayerName      = "Player name";
-            _newPlayerColor     = _defaultColor;
+            _NewPlayerName      = "Player name";
+            _NewPlayerColor     = _DefaultColor;
         }
 
         public ICommand AddPlayerCommand { get; private set; }
@@ -50,50 +50,50 @@ namespace MultiplayerClock.ViewModel
 
         public GameType SelectedGameType
         {
-            get { return _selectedGameType; }
+            get { return _SelectedGameType; }
             set
             {
-                _selectedGameType = value;
+                _SelectedGameType = value;
                 OnPropertyChanged(nameof(SelectedGameType));
             }
         }
 
         public List<GameType> AvailableGameTypes
         {
-            get { return _availableGameTypes; }
+            get { return _AvailableGameTypes; }
             set
             {
-                _availableGameTypes = value;
+                _AvailableGameTypes = value;
                 OnPropertyChanged(nameof(AvailableGameTypes));
             }
         }
 
         public bool UseSameTime
         {
-            get { return _useSameTime; }
+            get { return _UseSameTime; }
             set
             {
-                _useSameTime = value;
+                _UseSameTime = value;
                 OnPropertyChanged(nameof(UseSameTime));
             }
         }
 
         public string NewPlayerName
         {
-            get { return _newPlayerName; }
+            get { return _NewPlayerName; }
             set
             {
-                _newPlayerName = value;
+                _NewPlayerName = value;
                 OnPropertyChanged(nameof(NewPlayerName));
             }
         }
 
         public Color NewPlayerColor
         {
-            get { return _newPlayerColor; }
+            get { return _NewPlayerColor; }
             set
             {
-                _newPlayerColor = value;
+                _NewPlayerColor = value;
                 OnPropertyChanged(nameof(NewPlayerColor));
             }
         }
