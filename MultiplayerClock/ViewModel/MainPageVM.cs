@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using MultiplayerClock.Model;
 
 namespace MultiplayerClock.ViewModel
@@ -13,14 +14,18 @@ namespace MultiplayerClock.ViewModel
     {
         private List<Player> _players = new List<Player>
         {
-            new Player("Adi", Colors.Blue),
-            new Player("Cami", Colors.Red),
-            new Player("Andi", Colors.Green),
-            new Player("Emi", Colors.Violet),
+            new Player("Adi" , Colors.Blue  ),
+            new Player("Cami", Colors.Red   ),
+            new Player("Andi", Colors.Green ),
+            new Player("Emi" , Colors.Violet),
         };
-        private GameType _selectedGameType;
+
+        private GameType       _selectedGameType  ;
         private List<GameType> _availableGameTypes;
-        private bool _useSameTime;
+        private bool           _useSameTime       ;
+        private string         _newPlayerName     ;
+        private Color          _newPlayerColor    ;
+        private Color          _defaultColor = Color.FromArgb("512BD4");
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -31,10 +36,17 @@ namespace MultiplayerClock.ViewModel
             Players = new ObservableCollection<Player>();
             _players.ForEach(p => Players.Add(p));
 
-            _selectedGameType = GameType.Classic;
+            _selectedGameType   = GameType.Classic;
             _availableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
-            _useSameTime = true;
+            _useSameTime        = true;
+            AddPlayerCommand    = new Command(AddPlayer);
+            DeletePlayerCommand = new Command<Player>(DeletePlayer);
+            _newPlayerName      = "Player name";
+            _newPlayerColor     = _defaultColor;
         }
+
+        public ICommand AddPlayerCommand { get; private set; }
+        public ICommand DeletePlayerCommand { get; private set; }
 
         public GameType SelectedGameType
         {
@@ -66,9 +78,43 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
+        public string NewPlayerName
+        {
+            get { return _newPlayerName; }
+            set
+            {
+                _newPlayerName = value;
+                OnPropertyChanged(nameof(NewPlayerName));
+            }
+        }
+
+        public Color NewPlayerColor
+        {
+            get { return _newPlayerColor; }
+            set
+            {
+                _newPlayerColor = value;
+                OnPropertyChanged(nameof(NewPlayerColor));
+            }
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void AddPlayer()
+        {
+            if (NewPlayerName != string.Empty && Players.All(p => p.Name != NewPlayerName) && Players.Count < 8)
+            {
+                Players.Add(new Player(NewPlayerName, NewPlayerColor));
+            }
+        }
+
+        private void DeletePlayer(Player deletedPlayer)
+        {
+            //var deletedPlayer = Players.First(p => p.Name == playerName);
+            Players.Remove(deletedPlayer);
         }
     }
 }
