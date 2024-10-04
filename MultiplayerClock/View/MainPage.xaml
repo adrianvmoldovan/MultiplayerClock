@@ -103,7 +103,8 @@
             FontSize         ="40"
             Grid.ColumnSpan  ="2"
             HorizontalOptions="Center"
-            VerticalOptions  ="Center">
+            VerticalOptions  ="Center"
+            Command          ="{Binding StartGameCommand}">
             
         </Button>
     </Grid>

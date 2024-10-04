@@ -19,6 +19,9 @@ namespace MultiplayerClock
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<MainPageVM>();
 
+            builder.Services.AddSingleton<GamePage>();
+            builder.Services.AddSingleton<GameVM>();
+
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

@@ -39,14 +39,17 @@ namespace MultiplayerClock.ViewModel
             _SelectedGameType   = GameType.Classic;
             _AvailableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
             _UseSameTime        = true;
-            AddPlayerCommand    = new Command(AddPlayer);
-            DeletePlayerCommand = new Command<Player>(DeletePlayer);
             _NewPlayerName      = "Player name";
             _NewPlayerColor     = _DefaultColor;
+
+            AddPlayerCommand    = new Command(AddPlayer);
+            DeletePlayerCommand = new Command<Player>(DeletePlayer);
+            StartGameCommand    = new Command(StartGame);
         }
 
-        public ICommand AddPlayerCommand { get; private set; }
+        public ICommand AddPlayerCommand    { get; private set; }
         public ICommand DeletePlayerCommand { get; private set; }
+        public ICommand StartGameCommand    { get; private set; }
 
         public GameType SelectedGameType
         {
@@ -115,6 +118,11 @@ namespace MultiplayerClock.ViewModel
         {
             //var deletedPlayer = Players.First(p => p.Name == playerName);
             Players.Remove(deletedPlayer);
+        }
+
+        private void StartGame()
+        {
+            Shell.Current.GoToAsync(nameof(GamePage));
         }
     }
 }
