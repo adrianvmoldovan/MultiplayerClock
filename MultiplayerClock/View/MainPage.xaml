@@ -7,6 +7,14 @@
              xmlns:model    ="clr-namespace:MultiplayerClock.Model"
              x:DataType     ="viewModel:MainPageVM">
 
+    <ContentPage.Resources>
+        <x:Array x:Key="PlayerColumnDefinitions" Type="{x:Type ColumnDefinition}">
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width=".7*"/>
+            <ColumnDefinition Width=".3*"/>
+        </x:Array>
+    </ContentPage.Resources>
+    
     <Grid 
         RowDefinitions   ="Auto, Auto, Auto, Auto, *"
         ColumnDefinitions="*, *"
@@ -14,21 +22,24 @@
         Padding          ="30">
 
         <Label 
-            Text           ="Game type"
-            VerticalOptions="Center"
-            FontSize       ="20"/>
+            Text             ="Game type"
+            VerticalOptions  ="Center"
+            HorizontalOptions="Center"
+            FontSize         ="20"/>
         <Picker 
-            Grid.Column    ="1"
-            Title          ="Game Type"
-            VerticalOptions="Center"
-            FontSize       ="20"
-            ItemsSource    ="{Binding AvailableGameTypes}"
-            SelectedItem   ="{Binding SelectedGameType}"/>
+            Grid.Column            ="1"
+            Title                  ="Game Type"
+            VerticalOptions        ="Center"
+            HorizontalTextAlignment="Center"
+            FontSize               ="20"
+            ItemsSource            ="{Binding AvailableGameTypes}"
+            SelectedItem           ="{Binding SelectedGameType}"/>
 
         <Grid
             Grid.Row         ="1"
             Grid.ColumnSpan  ="2"
-            ColumnDefinitions="Auto, .7*, .3*"
+            ColumnDefinitions="{StaticResource PlayerColumnDefinitions}"
+            Padding          ="5"
             ColumnSpacing    ="3">
             <Button
                 BackgroundColor="{Binding NewPlayerColor}"/>
@@ -43,7 +54,6 @@
                 FontSize   ="18"
                 Command    ="{Binding AddPlayerCommand}"/>
         </Grid>
-
 
         <CollectionView 
             Grid.Row       ="2"
@@ -63,7 +73,7 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <Grid 
-                            ColumnDefinitions="Auto, .7*, .3*"
+                            ColumnDefinitions="{StaticResource PlayerColumnDefinitions}"
                             ColumnSpacing    ="3"
                             Padding          ="5">
                             <Button

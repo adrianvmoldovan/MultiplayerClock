@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using MultiplayerClock.View;
 using MultiplayerClock.ViewModel;
 
 namespace MultiplayerClock
@@ -21,6 +22,9 @@ namespace MultiplayerClock
 
             builder.Services.AddSingleton<GamePage>();
             builder.Services.AddSingleton<GameVM>();
+
+            builder.Services.AddSingleton<PickColorPage>();
+            builder.Services.AddSingleton<PickColorVM>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
