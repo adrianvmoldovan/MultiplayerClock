@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MultiplayerClock.Model.Colors
 {
-    interface IColorScheme
+    public interface IColorScheme
     {
         List<Color> GetColors();
     }

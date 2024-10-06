@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiplayerClock.Model
+namespace MultiplayerClock.ViewModel
 {
-    class PossibleColor
+    public class PossibleColor
     {
-        PossibleColor(Color color)
+        public PossibleColor(Color color)
         {
             Color = color;
             IsUsed = false;

@@ -26,6 +26,9 @@ namespace MultiplayerClock
             builder.Services.AddSingleton<PickColorPage>();
             builder.Services.AddSingleton<PickColorVM>();
 
+            builder.Services.AddTransient<ColorSchemeView>();
+            builder.Services.AddTransient<ColorSchemeVM>();
+
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

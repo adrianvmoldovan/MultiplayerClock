@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MultiplayerClock.Model;
+using MultiplayerClock.View;
 
 namespace MultiplayerClock.ViewModel
 {
@@ -44,11 +45,13 @@ namespace MultiplayerClock.ViewModel
 
             AddPlayerCommand    = new Command(AddPlayer);
             DeletePlayerCommand = new Command<Player>(DeletePlayer);
+            SelectColorCommand  = new Command<Player>(SelectColor);
             StartGameCommand    = new Command(StartGame);
         }
 
         public ICommand AddPlayerCommand    { get; private set; }
         public ICommand DeletePlayerCommand { get; private set; }
+        public ICommand SelectColorCommand  { get; private set; }
         public ICommand StartGameCommand    { get; private set; }
 
         public GameType SelectedGameType
@@ -116,8 +119,12 @@ namespace MultiplayerClock.ViewModel
 
         private void DeletePlayer(Player deletedPlayer)
         {
-            //var deletedPlayer = Players.First(p => p.Name == playerName);
             Players.Remove(deletedPlayer);
+        }
+
+        private void SelectColor(Player deletedPlayer)
+        {
+            Shell.Current.GoToAsync(nameof(PickColorPage));
         }
 
         private void StartGame()

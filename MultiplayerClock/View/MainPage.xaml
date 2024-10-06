@@ -38,7 +38,7 @@
         <Grid
             Grid.Row         ="1"
             Grid.ColumnSpan  ="2"
-            ColumnDefinitions="{StaticResource PlayerColumnDefinitions}"
+            ColumnDefinitions="Auto, .7*, .3*"
             Padding          ="5"
             ColumnSpacing    ="3">
             <Button
@@ -73,11 +73,13 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <Grid 
-                            ColumnDefinitions="{StaticResource PlayerColumnDefinitions}"
+                            ColumnDefinitions="Auto, .7*, .3*"
                             ColumnSpacing    ="3"
                             Padding          ="5">
                             <Button
-                                BackgroundColor="{Binding Color}"/>
+                                BackgroundColor="{Binding Color}"
+                                Command        ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=SelectColorCommand}"
+                                CommandParameter="{Binding .}"/>
                             <Entry 
                                 Grid.Column="1"
                                 Text       ="{Binding Name}"
