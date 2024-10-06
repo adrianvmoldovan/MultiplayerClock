@@ -28,13 +28,14 @@
         <Grid
             Grid.Row         ="1"
             Grid.ColumnSpan  ="2"
-            ColumnDefinitions=".7*, Auto, .3*"
+            ColumnDefinitions="Auto, .7*, .3*"
             ColumnSpacing    ="3">
-            <Entry
-                Text="{Binding NewPlayerName}"/>
             <Button
-                Grid.Column    ="1"
                 BackgroundColor="{Binding NewPlayerColor}"/>
+            <Entry
+                Grid.Column="1"
+                HorizontalTextAlignment="Center"
+                Text       ="{Binding NewPlayerName}"/>
             <Button
                 Grid.Column="2"
                 Text       ="Add"
@@ -62,14 +63,16 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <Grid 
-                            ColumnDefinitions=".7*, Auto, .3*"
+                            ColumnDefinitions="Auto, .7*, .3*"
                             ColumnSpacing    ="3"
                             Padding          ="5">
-                            <Entry Grid.Column="0"
-                                Text          ="{Binding Name}"
-                                FontSize      ="18"/>
-                            <Button Grid.Column="1"
+                            <Button
                                 BackgroundColor="{Binding Color}"/>
+                            <Entry 
+                                Grid.Column="1"
+                                Text       ="{Binding Name}"
+                                FontSize   ="18"
+                                HorizontalTextAlignment="Center"/>
                             <TimePicker  
                                 Grid.Column="2"
                                 Time       ="{Binding Time}"
