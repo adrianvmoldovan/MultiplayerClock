@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MultiplayerClock.ViewModel
 {
-    public class PickColorVM
+    public class PickColorVM : IQueryAttributable
     {
         private List<IColorScheme> _ColorSchemes = new List<IColorScheme>();
         private List<Color>        _Colors       = new List<Color>();
@@ -19,8 +19,11 @@ namespace MultiplayerClock.ViewModel
             RegisterSchemes();
 
             PossibleColorsDictionary = new Dictionary<IColorScheme, List<PossibleColor>>();
-            _ColorSchemes.ForEach(colorScheme => PossibleColorsDictionary.Add(colorScheme, CreatePossibleColors(colorScheme.GetColors())));
+            _ColorSchemes.ForEach(colorScheme => PossibleColorsDictionary.Add(colorScheme, CreatePossibleColors(colorScheme)));
         }
+
+        public Dictionary<IColorScheme, List<PossibleColor>> PossibleColorsDictionary { get; set; }
+        public Player? Player { get; set; }
 
         private void RegisterSchemes()
         {
@@ -30,15 +33,26 @@ namespace MultiplayerClock.ViewModel
             _ColorSchemes.Add(new WarmScheme     ());
         }
 
-        private List<PossibleColor> CreatePossibleColors(List<Color> colors)
+        private List<PossibleColor> CreatePossibleColors(IColorScheme colorScheme)
         {
+            int index = 0;
             List<PossibleColor> possibleColors = new List<PossibleColor>();
-            colors.ForEach(color => possibleColors.Add(new PossibleColor(color)));
+            colorScheme.GetColors().ForEach(
+                color =>
+                {
+                    string colorName = colorScheme.GetName() + " " + index++;   //increment the name
+                    possibleColors.Add(new PossibleColor(color, colorName));
+                });
 
             return possibleColors;
         }
 
-        public Dictionary<IColorScheme, List<PossibleColor>> PossibleColorsDictionary { get; set; }
-
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.ContainsKey("Player"))
+            {
+                Player = query["Player"] as Player;
+            }
+        }
     }
 }

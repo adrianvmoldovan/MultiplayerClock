@@ -30,5 +30,10 @@ namespace MultiplayerClock.Model.Colors
 
             return colors;
         }
+
+        public override string GetName()
+        {
+            return "Rainbow";
+        }
     }
 }

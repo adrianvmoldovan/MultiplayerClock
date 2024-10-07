@@ -4,7 +4,11 @@
              x:Class="MultiplayerClock.View.PickColorPage"
              Title="PickColorPage">
     
-    <VerticalStackLayout x:Name="ContentLayout">
+    <VerticalStackLayout 
+        x:Name="ContentLayout"
+        Spacing="50"
+        Padding="30"
+        VerticalOptions="Center">
 
     </VerticalStackLayout>
 </ContentPage>

@@ -1,20 +1,33 @@
+using Microsoft.Maui.Controls;
 using MultiplayerClock.Model.Colors;
 using MultiplayerClock.ViewModel;
-using System.Security.Cryptography.X509Certificates;
 
-namespace MultiplayerClock.View;
-
-public partial class ColorSchemeView : ContentView
+namespace MultiplayerClock.View
 {
-    public ColorSchemeView(ColorSchemeVM vm)
+    public partial class ColorSchemeView : ContentView
     {
-        InitializeComponent();
-        BindingContext = vm;
-
-        foreach (var possibleColor in vm.PossibleColors)
+        public ColorSchemeView(ColorSchemeVM vm)
         {
-            ColorsGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            ColorsGrid.Children.Add(new Button());
+            InitializeComponent();
+            BindingContext = vm;
+
+            int columnIndex = 0;
+            foreach (var possibleColor in vm.PossibleColors)
+            {
+                var columnDefinition = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) };
+                ColorsGrid.ColumnDefinitions.Add(columnDefinition);
+
+                var button             = new Button();
+                button.IsEnabled       = !possibleColor.IsUsed;
+                button.BackgroundColor = possibleColor.Color;
+                button.AutomationId    = possibleColor.Name;
+
+                button.SetBinding(Button.CommandProperty, "ColorSelected");
+                button.CommandParameter = button;
+
+                ColorsGrid.SetColumn(button, columnIndex++);
+                ColorsGrid.Children.Add(button);
+            }
         }
     }
 }

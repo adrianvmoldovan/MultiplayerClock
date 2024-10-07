@@ -9,5 +9,6 @@ namespace MultiplayerClock.Model.Colors
     public interface IColorScheme
     {
         List<Color> GetColors();
+        string      GetName();
     }
 }

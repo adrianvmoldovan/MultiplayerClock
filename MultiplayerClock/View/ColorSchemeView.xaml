@@ -3,20 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MultiplayerClock.View.ColorSchemeView">
 
-    <!--<ContentView.Resources>
-        <Style 
-            x:Key="ColorButton"
-            TargetType="Button"
-            BasedOn="{StaticResource Button}">
-            <Setter
-                Property="HeightRequest" Value="15"/>
-        </Style>
-    </ContentView.Resources>-->
-    
     <Grid
-        x:Name="ColorsGrid">
-            
-        
-        
+        RowDefinitions="Auto, Auto">
+        <Label
+            Text="{Binding SchemeName}"/>
+        <Grid
+            x:Name="ColorsGrid"
+            Grid.Row="1"
+            ColumnSpacing="10"
+            HeightRequest="70">
+        </Grid>
     </Grid>
 </ContentView>

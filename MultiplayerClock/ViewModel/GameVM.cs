@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MultiplayerClock.ViewModel
 {
-    public class GameVM : INotifyPropertyChanged
+    public class GameVM /*: INotifyPropertyChanged*/
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        //public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

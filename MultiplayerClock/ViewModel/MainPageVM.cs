@@ -122,9 +122,14 @@ namespace MultiplayerClock.ViewModel
             Players.Remove(deletedPlayer);
         }
 
-        private void SelectColor(Player deletedPlayer)
+        private void SelectColor(Player player)
         {
-            Shell.Current.GoToAsync(nameof(PickColorPage));
+            var parameters = new Dictionary<string, object>()
+            {
+                {"Player", player}
+            };
+
+            Shell.Current.GoToAsync(nameof(PickColorPage), parameters);
         }
 
         private void StartGame()
