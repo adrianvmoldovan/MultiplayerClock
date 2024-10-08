@@ -8,13 +8,13 @@ using System.Xml.Linq;
 
 namespace MultiplayerClock.Model
 {
-    public class Player /*: INotifyPropertyChanged*/
+    public class Player : INotifyPropertyChanged
     {
         private string _Name;
         private Color _Color;
         private DateTime _Time;
 
-        //public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Player(string name, Color color)
         {
@@ -29,7 +29,7 @@ namespace MultiplayerClock.Model
             set
             {
                 _Name = value;
-                //OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -39,7 +39,7 @@ namespace MultiplayerClock.Model
             set
             {
                 _Color = value;
-                //OnPropertyChanged(nameof(Color));
+                OnPropertyChanged(nameof(Color));
             }
         }
 
@@ -49,13 +49,13 @@ namespace MultiplayerClock.Model
             set
             {
                 _Time = value;
-                //OnPropertyChanged(nameof(Time));
+                OnPropertyChanged(nameof(Time));
             }
         }
 
-        //protected void OnPropertyChanged(string propertyName)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

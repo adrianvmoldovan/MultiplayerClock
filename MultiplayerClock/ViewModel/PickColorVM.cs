@@ -1,6 +1,7 @@
 ﻿using MultiplayerClock.Model;
 using MultiplayerClock.Model.Colors;
 using MultiplayerClock.View;
+using MultiplayerClock.ViewModel.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,16 @@ namespace MultiplayerClock.ViewModel
 {
     public class PickColorVM : IQueryAttributable
     {
-        private List<IColorScheme> _ColorSchemes = new List<IColorScheme>();
-        private List<Color>        _Colors       = new List<Color>();
+        private List<IColorScheme>            _ColorSchemes = new List<IColorScheme>();
+        private List<Color>                   _Colors       = new List<Color>();
+        private readonly ISharedPlayerService _SharedPlayerService;
         public PickColorVM()
         {
             RegisterSchemes();
 
             PossibleColorsDictionary = new Dictionary<IColorScheme, List<PossibleColor>>();
             _ColorSchemes.ForEach(colorScheme => PossibleColorsDictionary.Add(colorScheme, CreatePossibleColors(colorScheme)));
+            _SharedPlayerService = new SharedPlayerService();
         }
 
         public Dictionary<IColorScheme, List<PossibleColor>> PossibleColorsDictionary { get; set; }
@@ -51,8 +54,10 @@ namespace MultiplayerClock.ViewModel
         {
             if (query.ContainsKey("Player"))
             {
-                Player = query["Player"] as Player;
+                _SharedPlayerService.SharedPlayer = query["Player"] as Player;
             }
         }
+
+        public ISharedPlayerService GetSharedPlayerService() { return _SharedPlayerService; }
     }
 }
