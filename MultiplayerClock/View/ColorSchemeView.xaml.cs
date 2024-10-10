@@ -18,11 +18,13 @@ namespace MultiplayerClock.View
                 ColorsGrid.ColumnDefinitions.Add(columnDefinition);
 
                 var button             = new Button();
-                button.IsEnabled       = !possibleColor.IsUsed;
                 button.BackgroundColor = possibleColor.Color;
                 button.AutomationId    = possibleColor.Name;
 
-                button.SetBinding(Button.CommandProperty, "ColorSelected");
+                var isButtonEnabled = new Binding("IsButtonEnabled", BindingMode.OneWay, new Model.Converters.InvertedBoolConverter());
+
+                button.SetBinding(targetProperty: Button.IsEnabledProperty, isButtonEnabled);
+                button.SetBinding(targetProperty: Button.CommandProperty, "ColorSelected");
                 button.CommandParameter = button;
 
                 ColorsGrid.SetColumn(button, columnIndex++);

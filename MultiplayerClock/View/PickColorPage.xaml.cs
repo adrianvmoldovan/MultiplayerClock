@@ -10,12 +10,9 @@ namespace MultiplayerClock.View
         {
             InitializeComponent();
 
-            foreach (var pair in vm.PossibleColorsDictionary)
+            foreach (var colorSchemeName in vm.PossibleColorsManager.GetPossibleColorSchemeNames())
             {
-                List<PossibleColor> possibleColors = pair.Value;
-                IColorScheme colorScheme           = pair.Key;
-
-                var colorSchemeVM = new ColorSchemeVM(colorScheme.GetName(), possibleColors, vm.GetSharedPlayerService());
+                var colorSchemeVM = new ColorSchemeVM(colorSchemeName, vm.GetSharedPlayerService());
                 var colorSchemeView = new ColorSchemeView(colorSchemeVM);
 
                 ContentLayout.Children.Add(colorSchemeView);

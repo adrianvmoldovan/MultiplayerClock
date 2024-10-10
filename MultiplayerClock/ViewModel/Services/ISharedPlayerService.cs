@@ -10,5 +10,6 @@ namespace MultiplayerClock.ViewModel.Services
     public interface ISharedPlayerService
     {
         Player? SharedPlayer { get; set; }
+        PossibleColorsManager PossibleColorsManager { get; set; }
     }
 }

@@ -13,12 +13,12 @@ namespace MultiplayerClock.ViewModel
     public class ColorSchemeVM
     {
         private readonly ISharedPlayerService _SharedPlayerService;
-        public ColorSchemeVM(string schemeName, List<PossibleColor> possibleColors, ISharedPlayerService sharedPlayerService) 
+        public ColorSchemeVM(string schemeName, ISharedPlayerService sharedPlayerService) 
         {
             SchemeName          = schemeName;
-            PossibleColors      = possibleColors;
-            ColorSelected       = new Command<object>(async (object obj) => await OnButtonClicked(obj));
             _SharedPlayerService = sharedPlayerService;
+            PossibleColors      = _SharedPlayerService.PossibleColorsManager.GetPossibleColors(SchemeName);
+            ColorSelected       = new Command<object>(async (object obj) => await OnButtonClicked(obj));
         }
 
         public string SchemeName { get; set; }
@@ -28,12 +28,19 @@ namespace MultiplayerClock.ViewModel
 
         public async Task OnButtonClicked(object sender)
         {
-            if ((sender as Button) != null && _SharedPlayerService.SharedPlayer != null)
+            Button? button = sender as Button;
+            if (button != null && _SharedPlayerService.SharedPlayer != null)
             {
-                string colorName = ((Button)sender).AutomationId;
-                PossibleColor possibleColor = PossibleColors.First(c => c.Name == colorName);
+                //reset the player color
+                string previousColorName = _SharedPlayerService.SharedPlayer.ColorName;
+                PossibleColor previousPossibleColor = _SharedPlayerService.PossibleColorsManager.GetPossibleColor(previousColorName);
+                previousPossibleColor.IsUsed = false;
 
-                _SharedPlayerService.SharedPlayer.Color = possibleColor.Color;
+                //set the new player color
+                string colorName = button.AutomationId;
+                PossibleColor possibleColor = PossibleColors.First(c => c.Name == colorName);
+                possibleColor.IsUsed = true;
+                _SharedPlayerService.SharedPlayer.SetNewColor(possibleColor);
             }
 
             var navigation = Application.Current?.MainPage?.Navigation;
