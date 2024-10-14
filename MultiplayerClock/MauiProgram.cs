@@ -36,7 +36,11 @@ namespace MultiplayerClock
     		builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            var app = builder.Build();
+
+            ServiceLocator<Context>.Initialize(app.Services);
+
+            return app;
         }
     }
 }

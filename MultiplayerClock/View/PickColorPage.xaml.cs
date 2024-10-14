@@ -9,12 +9,11 @@ namespace MultiplayerClock.View
         {
             InitializeComponent();
 
-            var context = serviceProvider.GetRequiredService<Context>();
-            var vm      = serviceProvider.GetRequiredService<PickColorVM>();
+            var vm = serviceProvider.GetRequiredService<PickColorVM>();
 
             foreach (var colorSchemeName in vm.ColorsManager.GetPossibleColorSchemeNames())
             {
-                var colorSchemeVM = new ColorSchemeVM(serviceProvider, colorSchemeName);
+                var colorSchemeVM = new ColorSchemeVM(colorSchemeName);
                 var colorSchemeView = new ColorSchemeView(colorSchemeVM);
 
                 ContentLayout.Children.Add(colorSchemeView);

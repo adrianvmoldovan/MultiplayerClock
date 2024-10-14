@@ -13,11 +13,10 @@ namespace MultiplayerClock.ViewModel
 {
     public class PickColorVM : IQueryAttributable
     {
-        private readonly Context _Context;
-        public PickColorVM(IServiceProvider serviceProvider)
+        public PickColorVM()
         {
-            _Context = serviceProvider.GetRequiredService<Context>();
-            ColorsManager = _Context.ColorsManager;
+            var context   = ServiceLocator<Context>.Instance;
+            ColorsManager = context.ColorsManager;
         }
 
         public ColorsManager ColorsManager { get; private set; }
@@ -26,10 +25,9 @@ namespace MultiplayerClock.ViewModel
         {
             if (query.ContainsKey("Player"))
             {
-                _Context.CurrentPlayer = query["Player"] as Player;
+                var context = ServiceLocator<Context>.Instance;
+                context.CurrentPlayer = query["Player"] as Player;
             }
         }
-
-        //public Context GetSharedPlayerService() { return _Context; }
     }
 }

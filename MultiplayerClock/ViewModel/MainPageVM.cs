@@ -32,12 +32,11 @@ namespace MultiplayerClock.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<Player> Players { get; set; }
-        private readonly Context _Context;
 
         public MainPageVM(IServiceProvider serviceProvider)
         {
-            _Context = serviceProvider.GetRequiredService<Context>();
-            var colorManeger = _Context.ColorsManager;
+            var context      = ServiceLocator<Context>.Instance;
+            var colorManeger = context.ColorsManager;
             Players = new ObservableCollection<Player>();
 
             int index = 0;
