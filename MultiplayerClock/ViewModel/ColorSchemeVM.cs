@@ -1,4 +1,5 @@
 ﻿using MultiplayerClock.Model;
+using MultiplayerClock.Model.Colors;
 using MultiplayerClock.View;
 using MultiplayerClock.ViewModel.Services;
 using System;
@@ -13,11 +14,11 @@ namespace MultiplayerClock.ViewModel
     public class ColorSchemeVM
     {
         private readonly Context _Context;
-        public ColorSchemeVM(string schemeName, Context sharedPlayerService) 
+        public ColorSchemeVM(IServiceProvider serviceProvider, string schemeName) 
         {
+            _Context       = serviceProvider.GetRequiredService<Context>();
             SchemeName     = schemeName;
-            _Context       = sharedPlayerService;
-            PossibleColors = _Context.PossibleColorsManager.GetPossibleColors(SchemeName);
+            PossibleColors = _Context.ColorsManager.GetPossibleColors(SchemeName);
             ColorSelected  = new Command<object>(async (object obj) => await OnButtonClicked(obj));
         }
 
@@ -33,13 +34,13 @@ namespace MultiplayerClock.ViewModel
             {
                 //reset the player color
                 string previousColorName = _Context.CurrentPlayer.ColorName;
-                PossibleColor previousPossibleColor = _Context.PossibleColorsManager.GetPossibleColor(previousColorName);
-                previousPossibleColor.IsUsed = false;
+                PossibleColor previousPossibleColor = _Context.ColorsManager.ReservePossibleColors(previousColorName);
+                _Context.ColorsManager.ReleasePossibleColor(previousPossibleColor);
 
                 //set the new player color
                 string colorName = button.AutomationId;
                 PossibleColor possibleColor = PossibleColors.First(c => c.Name == colorName);
-                possibleColor.IsUsed = true;
+                _Context.ColorsManager.ReservePossibleColors(possibleColor);
                 _Context.CurrentPlayer.SetNewColor(possibleColor);
             }
 

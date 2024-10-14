@@ -42,7 +42,7 @@
             Padding          ="5"
             ColumnSpacing    ="3">
             <Button
-                BackgroundColor="{Binding NewPlayerColor}"/>
+                BackgroundColor="{Binding NewPlayerColor.Color}"/>
             <Entry
                 Grid.Column="1"
                 HorizontalTextAlignment="Center"

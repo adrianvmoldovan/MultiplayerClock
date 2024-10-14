@@ -14,13 +14,13 @@ namespace MultiplayerClock.ViewModel
     public class PickColorVM : IQueryAttributable
     {
         private readonly Context _Context;
-        public PickColorVM()
+        public PickColorVM(IServiceProvider serviceProvider)
         {
-            _Context = new Context();
-            PossibleColorsManager = _Context.PossibleColorsManager;
+            _Context = serviceProvider.GetRequiredService<Context>();
+            ColorsManager = _Context.ColorsManager;
         }
 
-        public PossibleColorsManager PossibleColorsManager { get; private set; }
+        public ColorsManager ColorsManager { get; private set; }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
@@ -30,6 +30,6 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
-        public Context GetSharedPlayerService() { return _Context; }
+        //public Context GetSharedPlayerService() { return _Context; }
     }
 }

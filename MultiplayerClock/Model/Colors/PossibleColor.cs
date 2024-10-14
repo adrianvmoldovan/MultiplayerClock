@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiplayerClock.Model
+namespace MultiplayerClock.Model.Colors
 {
     public class PossibleColor : INotifyPropertyChanged
     {
@@ -29,10 +29,18 @@ namespace MultiplayerClock.Model
             {
                 return _IsUsed;
             }
-            set
+            private set
             {
                 _IsUsed = value;
                 OnPropertyChanged(nameof(IsUsed));
+            }
+        }
+
+        public void SetUsability(bool newValue, IPossibleColorSetter setter)
+        {
+            if (setter != null)
+            {
+                IsUsed = newValue;
             }
         }
 

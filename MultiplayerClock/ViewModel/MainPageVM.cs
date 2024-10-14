@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MultiplayerClock.Model;
+using MultiplayerClock.Model.Colors;
 using MultiplayerClock.View;
 using MultiplayerClock.ViewModel.Services;
 
@@ -14,37 +15,42 @@ namespace MultiplayerClock.ViewModel
 {
     public class MainPageVM : INotifyPropertyChanged
     {
-        private List<Player> _Players = new List<Player>
+        private List<string> _PlayerNames = new List<string>
         {
-            new Player("Adi" , Colors.Blue  ),
-            new Player("Cami", Colors.Red   ),
-            new Player("Andi", Colors.Green ),
-            new Player("Emi" , Colors.Violet),
+            "Adi" ,
+            "Cami",
+            "Andi",
+            "Emi" ,
         };
 
         private GameType       _SelectedGameType  ;
         private List<GameType> _AvailableGameTypes;
         private bool           _UseSameTime       ;
         private string         _NewPlayerName     ;
-        private Color          _NewPlayerColor    ;
-        private Color          _DefaultColor = Color.FromArgb("512BD4");
+        private PossibleColor  _NewPlayerColor    ;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<Player> Players { get; set; }
         private readonly Context _Context;
 
-        public MainPageVM(Context context)
+        public MainPageVM(IServiceProvider serviceProvider)
         {
-            _Context = context;
+            _Context = serviceProvider.GetRequiredService<Context>();
+            var colorManeger = _Context.ColorsManager;
             Players = new ObservableCollection<Player>();
-            _Players.ForEach(p => Players.Add(p));
+
+            int index = 0;
+            colorManeger.ReservePossibleColors(4).ForEach(pc =>
+            {
+                Players.Add(new Player(_PlayerNames[index++], pc));
+            });
 
             _SelectedGameType   = GameType.Classic;
             _AvailableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
             _UseSameTime        = true;
             _NewPlayerName      = "Player name";
-            _NewPlayerColor     = _DefaultColor;
+            _NewPlayerColor     = colorManeger.ReservePossibleColors(1).First();
 
             AddPlayerCommand    = new Command(AddPlayer);
             DeletePlayerCommand = new Command<Player>(DeletePlayer);
@@ -97,7 +103,7 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
-        public Color NewPlayerColor
+        public PossibleColor NewPlayerColor
         {
             get { return _NewPlayerColor; }
             set

@@ -4,23 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiplayerClock.Model.Colors
+namespace MultiplayerClock.Model.Colors.Schemes
 {
-    public class WarmScheme : BaseColorScheme
+    public class DivergingScheme : BaseColorScheme
     {
         List<string> _HexColors;
-        public WarmScheme()
+        public DivergingScheme()
         {
             _HexColors = new List<string>()
             {
-                "ff6961",
-                "ffb480",
-                "f8f38d",
-                "42d6a4",
-                "08cad1",
-                "59adf6",
-                "9d94ff",
-                "c780e8",
+                "41afaa",
+                "466eb4",
+                "00a0e1",
+                "d7642c",
+                "af4b91",
+                "e6a532",
             };
         }
 
@@ -33,7 +31,7 @@ namespace MultiplayerClock.Model.Colors
 
         public override string GetName()
         {
-            return "Warm";
+            return "Diverging";
         }
     }
 }

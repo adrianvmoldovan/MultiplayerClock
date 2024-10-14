@@ -1,18 +1,20 @@
-using MultiplayerClock.Model;
-using MultiplayerClock.Model.Colors;
 using MultiplayerClock.ViewModel;
+using MultiplayerClock.ViewModel.Services;
 
 namespace MultiplayerClock.View
-{ 
+{
     public partial class PickColorPage : ContentPage
     {
-        public PickColorPage(PickColorVM vm)
+        public PickColorPage(IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
-            foreach (var colorSchemeName in vm.PossibleColorsManager.GetPossibleColorSchemeNames())
+            var context = serviceProvider.GetRequiredService<Context>();
+            var vm      = serviceProvider.GetRequiredService<PickColorVM>();
+
+            foreach (var colorSchemeName in vm.ColorsManager.GetPossibleColorSchemeNames())
             {
-                var colorSchemeVM = new ColorSchemeVM(colorSchemeName, vm.GetSharedPlayerService());
+                var colorSchemeVM = new ColorSchemeVM(serviceProvider, colorSchemeName);
                 var colorSchemeView = new ColorSchemeView(colorSchemeVM);
 
                 ContentLayout.Children.Add(colorSchemeView);

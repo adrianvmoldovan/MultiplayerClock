@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using MultiplayerClock.Model.Colors;
 
 namespace MultiplayerClock.Model
 {
@@ -47,10 +48,10 @@ namespace MultiplayerClock.Model
 
         public string ColorName
         {
-            get { return _Name; }
+            get { return _ColorName; }
             private set
             {
-                _Name = value;
+                _ColorName = value;
             }
         }
 

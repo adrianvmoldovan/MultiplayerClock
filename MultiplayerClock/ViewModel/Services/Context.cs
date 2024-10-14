@@ -1,4 +1,5 @@
 ﻿using MultiplayerClock.Model;
+using MultiplayerClock.Model.Colors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace MultiplayerClock.ViewModel.Services
     {
         public Context() 
         {
-            PossibleColorsManager = new PossibleColorsManager();
+            ColorsManager = new ColorsManager();
         }
         public Player? CurrentPlayer { get; set; }
-        public PossibleColorsManager PossibleColorsManager { get; set; }
+        public ColorsManager ColorsManager { get; set; }
     }
 }
