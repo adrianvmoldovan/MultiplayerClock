@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace MultiplayerClock.ViewModel.Services
 {
-    public class SharedPlayerService : ISharedPlayerService
+    public class Context
     {
-        public SharedPlayerService() 
+        public Context() 
         {
             PossibleColorsManager = new PossibleColorsManager();
         }
-        public Player? SharedPlayer { get; set; }
+        public Player? CurrentPlayer { get; set; }
         public PossibleColorsManager PossibleColorsManager { get; set; }
     }
 }

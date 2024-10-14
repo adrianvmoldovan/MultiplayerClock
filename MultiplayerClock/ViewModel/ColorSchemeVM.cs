@@ -12,13 +12,13 @@ namespace MultiplayerClock.ViewModel
 {
     public class ColorSchemeVM
     {
-        private readonly ISharedPlayerService _SharedPlayerService;
-        public ColorSchemeVM(string schemeName, ISharedPlayerService sharedPlayerService) 
+        private readonly Context _Context;
+        public ColorSchemeVM(string schemeName, Context sharedPlayerService) 
         {
-            SchemeName          = schemeName;
-            _SharedPlayerService = sharedPlayerService;
-            PossibleColors      = _SharedPlayerService.PossibleColorsManager.GetPossibleColors(SchemeName);
-            ColorSelected       = new Command<object>(async (object obj) => await OnButtonClicked(obj));
+            SchemeName     = schemeName;
+            _Context       = sharedPlayerService;
+            PossibleColors = _Context.PossibleColorsManager.GetPossibleColors(SchemeName);
+            ColorSelected  = new Command<object>(async (object obj) => await OnButtonClicked(obj));
         }
 
         public string SchemeName { get; set; }
@@ -29,18 +29,18 @@ namespace MultiplayerClock.ViewModel
         public async Task OnButtonClicked(object sender)
         {
             Button? button = sender as Button;
-            if (button != null && _SharedPlayerService.SharedPlayer != null)
+            if (button != null && _Context.CurrentPlayer != null)
             {
                 //reset the player color
-                string previousColorName = _SharedPlayerService.SharedPlayer.ColorName;
-                PossibleColor previousPossibleColor = _SharedPlayerService.PossibleColorsManager.GetPossibleColor(previousColorName);
+                string previousColorName = _Context.CurrentPlayer.ColorName;
+                PossibleColor previousPossibleColor = _Context.PossibleColorsManager.GetPossibleColor(previousColorName);
                 previousPossibleColor.IsUsed = false;
 
                 //set the new player color
                 string colorName = button.AutomationId;
                 PossibleColor possibleColor = PossibleColors.First(c => c.Name == colorName);
                 possibleColor.IsUsed = true;
-                _SharedPlayerService.SharedPlayer.SetNewColor(possibleColor);
+                _Context.CurrentPlayer.SetNewColor(possibleColor);
             }
 
             var navigation = Application.Current?.MainPage?.Navigation;

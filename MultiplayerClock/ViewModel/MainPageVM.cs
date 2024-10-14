@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MultiplayerClock.Model;
 using MultiplayerClock.View;
+using MultiplayerClock.ViewModel.Services;
 
 namespace MultiplayerClock.ViewModel
 {
@@ -31,9 +32,11 @@ namespace MultiplayerClock.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<Player> Players { get; set; }
+        private readonly Context _Context;
 
-        public MainPageVM()
+        public MainPageVM(Context context)
         {
+            _Context = context;
             Players = new ObservableCollection<Player>();
             _Players.ForEach(p => Players.Add(p));
 

@@ -13,11 +13,11 @@ namespace MultiplayerClock.ViewModel
 {
     public class PickColorVM : IQueryAttributable
     {
-        private readonly ISharedPlayerService _SharedPlayerService;
+        private readonly Context _Context;
         public PickColorVM()
         {
-            _SharedPlayerService = new SharedPlayerService();
-            PossibleColorsManager = _SharedPlayerService.PossibleColorsManager;
+            _Context = new Context();
+            PossibleColorsManager = _Context.PossibleColorsManager;
         }
 
         public PossibleColorsManager PossibleColorsManager { get; private set; }
@@ -26,10 +26,10 @@ namespace MultiplayerClock.ViewModel
         {
             if (query.ContainsKey("Player"))
             {
-                _SharedPlayerService.SharedPlayer          = query["Player"] as Player;
+                _Context.CurrentPlayer = query["Player"] as Player;
             }
         }
 
-        public ISharedPlayerService GetSharedPlayerService() { return _SharedPlayerService; }
+        public Context GetSharedPlayerService() { return _Context; }
     }
 }

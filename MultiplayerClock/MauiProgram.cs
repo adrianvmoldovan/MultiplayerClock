@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using MultiplayerClock.View;
 using MultiplayerClock.ViewModel;
+using MultiplayerClock.ViewModel.Services;
 
 namespace MultiplayerClock
 {
@@ -16,6 +17,8 @@ namespace MultiplayerClock
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Services.AddSingleton<Context>();
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<MainPageVM>();
