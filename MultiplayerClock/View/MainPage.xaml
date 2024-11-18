@@ -73,23 +73,40 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <Grid 
-                            ColumnDefinitions="Auto, .7*, .3*"
+                            ColumnDefinitions="Auto, .6*, .4*"
                             ColumnSpacing    ="3"
                             Padding          ="5">
                             <Button
-                                BackgroundColor="{Binding Color}"
-                                Command        ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=SelectColorCommand}"
+                                BackgroundColor ="{Binding Color}"
+                                Command         ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=SelectColorCommand}"
                                 CommandParameter="{Binding .}"/>
                             <Entry 
                                 Grid.Column="1"
                                 Text       ="{Binding Name}"
-                                FontSize   ="18"
+                                FontSize   ="22"
                                 HorizontalTextAlignment="Center"/>
-                            <TimePicker  
+                            <Grid
                                 Grid.Column="2"
-                                Time       ="{Binding Time}"
-                                Format     ="hh:mm:ss"
-                                FontSize   ="18"/>
+                                ColumnDefinitions="Auto, Auto, .3*"
+                                ColumnSpacing    ="2"
+                                Padding          ="0">
+                                <Label
+                                    Text             ="{Binding StartingMinutes}"
+                                    FontSize         ="22"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions  ="Center"/>
+                                <Label
+                                    Grid.Column      ="1"
+                                    Text             ="min"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions  ="Center"/>
+                                <Stepper  
+                                    Grid.Column ="2"
+                                    Value       ="{Binding StartingMinutes}"
+                                    Minimum     ="1"
+                                    Maximum     ="120"
+                                    Increment   ="1"/>
+                            </Grid>
                         </Grid>
                     </SwipeView>
                 </DataTemplate>
