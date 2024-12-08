@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns          ="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x        ="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local    ="clr-namespace:MultiplayerClock"
+             xmlns:local    ="clr-namespace:MultiplayerClock.View"
              x:Class        ="MultiplayerClock.MainPage"
              xmlns:viewModel="clr-namespace:MultiplayerClock.ViewModel"
              xmlns:model    ="clr-namespace:MultiplayerClock.Model"
@@ -14,131 +14,101 @@
             <ColumnDefinition Width=".3*"/>
         </x:Array>
     </ContentPage.Resources>
-    
-    <Grid 
-        RowDefinitions   ="Auto, Auto, Auto, Auto, *"
-        ColumnDefinitions="*, *"
-        RowSpacing       ="30"
-        Padding          ="30">
 
-        <Label 
-            Text             ="Game type"
-            VerticalOptions  ="Center"
-            HorizontalOptions="Center"
-            FontSize         ="20"/>
-        <Picker 
-            Grid.Column            ="1"
-            Title                  ="Game Type"
-            VerticalOptions        ="Center"
-            HorizontalTextAlignment="Center"
-            FontSize               ="20"
-            ItemsSource            ="{Binding AvailableGameTypes}"
-            SelectedItem           ="{Binding SelectedGameType}"/>
-
+    <ContentPage.Content>
         <Grid
-            Grid.Row         ="1"
-            Grid.ColumnSpan  ="2"
-            ColumnDefinitions="Auto, .7*, .3*"
-            Padding          ="5"
-            ColumnSpacing    ="3">
-            <Button
-                BackgroundColor="{Binding NewPlayerColor.Color}"/>
-            <Entry
-                Grid.Column="1"
-                HorizontalTextAlignment="Center"
-                Text       ="{Binding NewPlayerName}"/>
-            <Button
-                Grid.Column="2"
-                Text       ="Add"
-                Padding    ="10"
-                FontSize   ="18"
-                Command    ="{Binding AddPlayerCommand}"/>
-        </Grid>
+            x:Name="MainGrid"
+            RowDefinitions   ="Auto, Auto, Auto, Auto, *"
+            ColumnDefinitions="*, *"
+            RowSpacing       ="30"
+            Padding          ="30">
 
-        <CollectionView 
-            Grid.Row       ="2"
-            Grid.Column    ="0"
-            Grid.ColumnSpan="2"
-            ItemsSource    ="{Binding Players}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Player">
-                    <SwipeView>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem 
+            <Label 
+                Text             ="Game type"
+                VerticalOptions  ="Center"
+                HorizontalOptions="Center"
+                FontSize         ="20"/>
+            
+            <Picker 
+                Grid.Column            ="1"
+                Title                  ="Game Type"
+                VerticalOptions        ="Center"
+                HorizontalTextAlignment="Center"
+                FontSize               ="20"
+                ItemsSource            ="{Binding AvailableGameTypes}"
+                SelectedItem           ="{Binding SelectedGameType}"/>
+
+            <Grid
+                Grid.Row         ="1"
+                Grid.ColumnSpan  ="2"
+                ColumnDefinitions="Auto, .7*, .3*"
+                Padding          ="5"
+                ColumnSpacing    ="3">
+                
+                <Button
+                    BackgroundColor="{Binding NewPlayerColor.Color}"/>
+                <Entry
+                    Grid.Column="1"
+                    HorizontalTextAlignment="Center"
+                    Text       ="{Binding NewPlayerName}"/>
+                <Button
+                    Grid.Column="2"
+                    Text       ="Add"
+                    Padding    ="10"
+                    FontSize   ="18"
+                    Command    ="{Binding AddPlayerCommand}"/>
+            </Grid>
+
+            <CollectionView 
+                Grid.Row       ="2"
+                Grid.Column    ="0"
+                Grid.ColumnSpan="2"
+                ItemsSource    ="{Binding PlayerVMs}">
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModel:PlayerVM">
+                        <SwipeView x:Name="PlayerViewItems">
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem 
                                     Text            ="Delete"
                                     BackgroundColor ="Red"
                                     Command         ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=DeletePlayerCommand}"
                                     CommandParameter="{Binding .}"/>
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        <Grid 
-                            ColumnDefinitions="Auto, .6*, .4*"
-                            ColumnSpacing    ="3"
-                            Padding          ="5">
-                            <Button
-                                BackgroundColor ="{Binding Color}"
-                                Command         ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=SelectColorCommand}"
-                                CommandParameter="{Binding .}"/>
-                            <Entry 
-                                Grid.Column="1"
-                                Text       ="{Binding Name}"
-                                FontSize   ="22"
-                                HorizontalTextAlignment="Center"/>
-                            <Grid
-                                Grid.Column="2"
-                                ColumnDefinitions="Auto, Auto, .3*"
-                                ColumnSpacing    ="2"
-                                Padding          ="0">
-                                <Label
-                                    Text             ="{Binding StartingMinutes}"
-                                    FontSize         ="22"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions  ="Center"/>
-                                <Label
-                                    Grid.Column      ="1"
-                                    Text             ="min"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions  ="Center"/>
-                                <Stepper  
-                                    Grid.Column ="2"
-                                    Value       ="{Binding StartingMinutes}"
-                                    Minimum     ="1"
-                                    Maximum     ="120"
-                                    Increment   ="1"/>
-                            </Grid>
-                        </Grid>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <local:PlayerView />
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <Grid
-            Grid.Row         ="3"
-            Grid.Column      ="1"
-            ColumnSpacing    ="2"
-            HorizontalOptions="End"
-            ColumnDefinitions="Auto, Auto">
-            <Label 
-                Text           ="Use the same time"
-                VerticalOptions="Center"
-                FontSize       ="20"/>
-            <CheckBox
-                Grid.Column    ="1"
-                VerticalOptions="Center"
-                IsChecked      ="{Binding UseSameTime}"/>
+            <Grid
+                Grid.Row         ="3"
+                Grid.Column      ="1"
+                ColumnSpacing    ="2"
+                HorizontalOptions="End"
+                ColumnDefinitions="Auto, Auto">
+                
+                <Label 
+                    Text           ="Use the same time"
+                    VerticalOptions="Center"
+                    FontSize       ="20"/>
+                <CheckBox
+                    Grid.Column    ="1"
+                    VerticalOptions="Center"
+                    IsChecked      ="{Binding UseSameTime}"/>
+            </Grid>
+
+            <Button
+                Text             ="START"
+                Grid.Row         ="4"
+                FontSize         ="40"
+                Grid.ColumnSpan  ="2"
+                HorizontalOptions="Center"
+                VerticalOptions  ="Center"
+                Command          ="{Binding StartGameCommand}">
+            </Button>
         </Grid>
-
-        <Button
-            Text             ="START"
-            Grid.Row         ="4"
-            FontSize         ="40"
-            Grid.ColumnSpan  ="2"
-            HorizontalOptions="Center"
-            VerticalOptions  ="Center"
-            Command          ="{Binding StartGameCommand}">
-            
-        </Button>
-    </Grid>
-
+    </ContentPage.Content>
 </ContentPage>

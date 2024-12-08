@@ -1,4 +1,5 @@
-﻿using MultiplayerClock.ViewModel;
+﻿using MultiplayerClock.View;
+using MultiplayerClock.ViewModel;
 
 namespace MultiplayerClock
 {
@@ -7,6 +8,7 @@ namespace MultiplayerClock
         public MainPage(MainPageVM vm)
         {
             InitializeComponent();
+
             BindingContext = vm;
         }
     }

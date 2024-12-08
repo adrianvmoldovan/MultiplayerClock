@@ -32,8 +32,11 @@ namespace MultiplayerClock
             builder.Services.AddTransient<ColorSchemeView>();
             builder.Services.AddTransient<ColorSchemeVM>();
 
+            builder.Services.AddTransient<PlayerView>();
+            builder.Services.AddTransient<PlayerVM>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             var app = builder.Build();

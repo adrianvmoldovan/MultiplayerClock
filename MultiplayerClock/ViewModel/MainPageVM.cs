@@ -31,18 +31,18 @@ namespace MultiplayerClock.ViewModel
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<Player> Players { get; set; }
+        public ObservableCollection<PlayerVM> PlayerVMs { get; set; }
 
         public MainPageVM(IServiceProvider serviceProvider)
         {
             var context      = ServiceLocator<Context>.Instance;
             var colorManeger = context.ColorsManager;
-            Players = new ObservableCollection<Player>();
+            PlayerVMs = new ObservableCollection<PlayerVM>();
 
             int index = 0;
             colorManeger.ReservePossibleColors(4).ForEach(pc =>
             {
-                Players.Add(new Player(_PlayerNames[index++], pc));
+                PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[index++], pc)));
             });
 
             _SelectedGameType   = GameType.Classic;
@@ -52,8 +52,8 @@ namespace MultiplayerClock.ViewModel
             _NewPlayerColor     = colorManeger.ReservePossibleColors(1).First();
 
             AddPlayerCommand    = new Command(AddPlayer);
-            DeletePlayerCommand = new Command<Player>(DeletePlayer);
-            SelectColorCommand  = new Command<Player>(SelectColor);
+            DeletePlayerCommand = new Command<PlayerVM>(DeletePlayer);
+            SelectColorCommand  = new Command<PlayerVM>(SelectColor);
             StartGameCommand    = new Command(StartGame);
         }
 
@@ -119,22 +119,22 @@ namespace MultiplayerClock.ViewModel
 
         private void AddPlayer()
         {
-            if (NewPlayerName != string.Empty && Players.All(p => p.Name != NewPlayerName) && Players.Count < 8)
+            if (NewPlayerName != string.Empty && PlayerVMs.All(p => p.Player.Name != NewPlayerName) && PlayerVMs.Count < 8)
             {
-                Players.Add(new Player(NewPlayerName, NewPlayerColor));
+                PlayerVMs.Add(new PlayerVM(new Player(NewPlayerName, NewPlayerColor)));
             }
         }
 
-        private void DeletePlayer(Player deletedPlayer)
+        private void DeletePlayer(PlayerVM deletedPlayerVM)
         {
-            Players.Remove(deletedPlayer);
+            PlayerVMs.Remove(deletedPlayerVM);
         }
 
-        private void SelectColor(Player player)
+        private void SelectColor(PlayerVM playerVM)
         {
             var parameters = new Dictionary<string, object>()
             {
-                {"Player", player}
+                {"Player", playerVM.Player}
             };
 
             Shell.Current.GoToAsync(nameof(PickColorPage), parameters);
