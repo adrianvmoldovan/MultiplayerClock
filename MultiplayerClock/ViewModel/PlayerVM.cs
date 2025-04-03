@@ -59,7 +59,7 @@ namespace MultiplayerClock.ViewModel
 
         private void OnTimerTick(object? sender, EventArgs e)
         {
-            DecreaseTime();
+            IncreaseTime();
         }
 
         private void IncreaseTime()
