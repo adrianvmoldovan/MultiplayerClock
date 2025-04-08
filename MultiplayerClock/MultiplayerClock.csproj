@@ -77,6 +77,4 @@
 	  </MauiXaml>
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMultiplayerClockHideInfoBar="True" /></VisualStudio></ProjectExtensions>
-
 </Project>

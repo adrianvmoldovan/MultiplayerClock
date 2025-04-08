@@ -8,13 +8,13 @@ namespace MultiplayerClock.View
 {
     class TriangleDrawable : IDrawable
     {
-        public TriangleDrawable(IList<Point> points, Color color)
+        public TriangleDrawable(IList<PointF> points, Color color)
         {
             Points = points;
             Color = color;
         }
 
-        public IList<Point> Points { get; private set; }
+        public IList<PointF> Points { get; private set; }
         public Color Color{ get; private set; }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
@@ -29,11 +29,12 @@ namespace MultiplayerClock.View
 
             shapePath.Close(); // Connect back to the top center
 
-            // Set color
             canvas.FillColor = Color;
-            canvas.StrokeColor = Colors.White;
-            canvas.StrokeSize = 4;
             canvas.FillPath(shapePath);
+
+            canvas.StrokeColor = Colors.White;
+            canvas.StrokeSize = 1;
+            canvas.DrawPath(shapePath);
         }
     }
 }
