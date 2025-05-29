@@ -11,6 +11,12 @@ namespace MultiplayerClock
 			BindingContext = vm;
 
             AddTriangleButtons(vm.GetPoints());
+            AddLabels();
+        }
+
+        private void AddLabels()
+        {
+
         }
 
         private void AddTriangleButtons(IList<IList<Point>> shapesPoints)
@@ -26,16 +32,17 @@ namespace MultiplayerClock
             };
 
             int i = 0;
-            foreach (IList<PointF> points in shapesPoints)
+            foreach (var points in shapesPoints)
             {
                 // Create a new GraphicsView
                 var triangleButton = new GraphicsView
                 {
                     BackgroundColor = Colors.Transparent,
-                    Drawable        = new TriangleDrawable(points, colors[i]), // Assign the custom drawable
+                    Drawable = new TriangleDrawable(points, colors[i]), // Assign the custom drawable
+
                 };
 
-                int buttonIndex = i++; // Capture the current index for use in the handler
+                int buttonIndex = i; // Capture the current index for use in the handler
 
                 // Add tap gesture for interactivity
                 var tapGesture = new TapGestureRecognizer
@@ -59,6 +66,25 @@ namespace MultiplayerClock
 
                 // Add the GraphicsView to the container
                 ButtonContainer.Children.Add(triangleButton);
+                i++;
+            }
+
+            int j = 0;
+            Point centerPoint = shapesPoints[0][0];
+            foreach (var points in shapesPoints)
+            {
+
+
+                var labelGraphicsView = new GraphicsView
+                {
+                    HeightRequest = 500,
+                    WidthRequest = 2000,
+                    Drawable = new TextDrawable($"Label {j}", j * 72, centerPoint)
+                };
+
+                ButtonContainer.Children.Add(labelGraphicsView);
+
+                j++;
             }
         }
 

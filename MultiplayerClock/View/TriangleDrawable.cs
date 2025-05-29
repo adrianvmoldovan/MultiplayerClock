@@ -8,13 +8,13 @@ namespace MultiplayerClock.View
 {
     class TriangleDrawable : IDrawable
     {
-        public TriangleDrawable(IList<PointF> points, Color color)
+        public TriangleDrawable(IList<Point> points, Color color)
         {
             Points = points;
             Color = color;
         }
 
-        public IList<PointF> Points { get; private set; }
+        public IList<Point> Points { get; private set; }
         public Color Color{ get; private set; }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)

@@ -4,9 +4,9 @@
              x:Class="MultiplayerClock.GamePage"
              Title="GamePage">
     <ScrollView>
-        <VerticalStackLayout x:Name="ButtonContainer">
+        <Grid x:Name="ButtonContainer">
             <Label x:Name="ResultLabel" Text="Tap the triangle!" FontSize="18" HorizontalOptions="Center" />
             <!-- Dynamically added triangle buttons will go here -->
-        </VerticalStackLayout>
+        </Grid>
     </ScrollView>
 </ContentPage>
