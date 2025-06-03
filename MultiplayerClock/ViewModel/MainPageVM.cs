@@ -31,16 +31,15 @@ namespace MultiplayerClock.ViewModel
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<PlayerVM> PlayerVMs { get; set; }
+        public ObservableCollection<PlayerVM> PlayerVMs => ServiceLocator<Context>.Instance.PlayerVMs;
 
         public MainPageVM(IServiceProvider serviceProvider)
         {
             var context      = ServiceLocator<Context>.Instance;
-            var colorManeger = context.ColorsManager;
-            PlayerVMs = new ObservableCollection<PlayerVM>();
+            var colorManager = context.ColorsManager;
 
             int index = 0;
-            colorManeger.ReservePossibleColors(4).ForEach(pc =>
+            colorManager.ReservePossibleColors(4).ForEach(pc =>
             {
                 PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[index++], pc)));
             });
@@ -49,7 +48,7 @@ namespace MultiplayerClock.ViewModel
             _AvailableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
             _UseSameTime        = true;
             _NewPlayerName      = "Player name";
-            _NewPlayerColor     = colorManeger.ReservePossibleColors(1).First();
+            _NewPlayerColor     = colorManager.ReservePossibleColors(1).First();
 
             AddPlayerCommand    = new Command(AddPlayer);
             DeletePlayerCommand = new Command<PlayerVM>(DeletePlayer);

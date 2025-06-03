@@ -14,6 +14,7 @@ namespace MultiplayerClock.ViewModel
     {
         private Player _Player;
         private IDispatcherTimer _Timer;
+        private TimeSpan _Time;
 
         public PlayerVM(Player player)
         {
@@ -43,16 +44,19 @@ namespace MultiplayerClock.ViewModel
 
         public TimeSpan Time
         {
-            get => _Player.Time;
+            get => _Time;
             set
             {
-                if (_Player.Time != value)
+                if (_Time != value)
                 {
-                    _Player.Time = value;
+                    _Time = value;
                     OnPropertyChanged(nameof(Time));
+                    OnPropertyChanged(nameof(TimeDisplay));
                 }
             }
         }
+
+        public string TimeDisplay => $"{Time.Minutes:D2}:{Time.Seconds:D2}";
 
         public ICommand IncreaseTimeCommand => new RelayCommand(IncreaseTime);
         public ICommand DecreaseTimeCommand => new RelayCommand(DecreaseTime);

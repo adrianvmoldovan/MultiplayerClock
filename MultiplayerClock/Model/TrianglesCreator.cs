@@ -40,5 +40,28 @@ namespace MultiplayerClock.Model
 
             return triangleList;
         }
+
+        public Triangle GetTriangle(Point center, float radius, int totalNumberOfPlayers, int currentPlayerIndex)
+        {
+            double angle = 360 / totalNumberOfPlayers;
+            double radians = angle * Math.PI / 180;
+
+            //rotate back so that the first triangle has the base paralel with the x axis
+            double forwardAngle = (radians / 2) - (Math.PI / 2);
+            double backwardAngle = (-(radians / 2)) - (Math.PI / 2);
+
+            double firstX = center.X + radius * Math.Cos(forwardAngle);
+            double firstY = center.Y - radius * Math.Sin(forwardAngle);
+
+            double secondX = center.X + radius * Math.Cos(backwardAngle);
+            double secondY = center.Y - radius * Math.Sin(backwardAngle);
+
+            var triangle = new Triangle(center, new Point(firstX, firstY), new Point(secondX, secondY));
+            double rotatingAngle = angle * currentPlayerIndex;
+
+            triangle.Rotate(rotatingAngle);
+
+            return triangle;
+        }
     }
 }

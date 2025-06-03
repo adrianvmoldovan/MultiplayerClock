@@ -18,7 +18,7 @@
     <ContentPage.Content>
         <Grid
             x:Name="MainGrid"
-            RowDefinitions   ="Auto, Auto, Auto, Auto, *"
+            RowDefinitions   ="Auto, Auto, *, Auto, Auto"
             ColumnDefinitions="*, *"
             RowSpacing       ="30"
             Padding          ="30">

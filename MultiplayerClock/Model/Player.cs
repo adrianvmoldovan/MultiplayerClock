@@ -9,23 +9,12 @@ namespace MultiplayerClock.Model
         private string   _Name;
         private string   _ColorName;
         private Color    _Color;
-        private TimeSpan _Time;
 
         public Player(string name, PossibleColor possibleColor, int minutes = 1)
         {
             _Name          = name;
             _Color         = possibleColor.Color;
             _ColorName     = possibleColor.Name;
-            _Time = TimeSpan.FromMinutes(minutes);
-        }
-
-        public TimeSpan Time
-        {
-            get { return _Time; }
-            set
-            {
-                _Time = value;
-            }
         }
 
         public string Name

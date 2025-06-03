@@ -1,5 +1,7 @@
 using MultiplayerClock.View;
 using MultiplayerClock.ViewModel;
+using MultiplayerClock.ViewModel.Services;
+using System.Collections.ObjectModel;
 
 namespace MultiplayerClock
 {
@@ -10,101 +12,69 @@ namespace MultiplayerClock
 			InitializeComponent();
 			BindingContext = vm;
 
-            AddTriangleButtons(vm.GetPoints());
-            AddLabels();
+            _triangleDrawables = new List<TriangleDrawable>();
+
+            CreateTriangles();
+            CreateLabels();
         }
 
-        private void AddLabels()
+        private IList<TriangleDrawable> _triangleDrawables;
+
+        private void CreateTriangles()
         {
+            var players = ServiceLocator<Context>.Instance.PlayerVMs;
 
-        }
-
-        private void AddTriangleButtons(IList<IList<Point>> shapesPoints)
-        {
-            var colors = new List<Color>()
+            int currentPlayerIndex = 0;
+            foreach (var player in players)
             {
-                Colors.Red,
-                Colors.Green,
-                Colors.Brown,
-                Colors.BlueViolet,
-                Colors.DarkCyan,
-                Colors.Gold,
-            };
-
-            int i = 0;
-            foreach (var points in shapesPoints)
-            {
+                var triangleDrawable = new TriangleDrawable(player.Player.Color, players.Count, currentPlayerIndex);
+                _triangleDrawables.Add(triangleDrawable);
                 // Create a new GraphicsView
-                var triangleButton = new GraphicsView
+                var triangleGraphic = new GraphicsView
                 {
                     BackgroundColor = Colors.Transparent,
-                    Drawable = new TriangleDrawable(points, colors[i]), // Assign the custom drawable
+                    Drawable = triangleDrawable, // Assign the custom drawable
 
                 };
 
-                int buttonIndex = i; // Capture the current index for use in the handler
-
-                // Add tap gesture for interactivity
-                var tapGesture = new TapGestureRecognizer
+                triangleGraphic.StartInteraction += (s, e) =>
                 {
-                    Command = new Command<PointF>(tapPoint =>
+                    if (e.Touches.Count() > 0)
                     {
-                        bool isInside = IsPointInTriangle(tapPoint, points[0], points[1], points[2]);
-                        if (isInside)
-                        {
-                            ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {buttonIndex}!";
-                        }
-                    })
-                };
+                        var tapPoint = e.Touches[0];
+                        var pointF = new PointF((float)tapPoint.X, (float)tapPoint.Y);
 
-                //tapGesture.Tapped += (s, e) =>
-                //{
-                //    ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {buttonIndex}!";
-                //    //DisplayAlert("Triangle Button Pressed", $"You pressed Triangle Button {buttonIndex}!", "OK");
-                //};
-                triangleButton.GestureRecognizers.Add(tapGesture);
+                        var touchedTriangles = _triangleDrawables.Where(triangle => { return triangle.IsPointInTriangle(pointF); });
+
+                        if (touchedTriangles.Count() > 0)
+                        {
+                            ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {touchedTriangles.First().GetPlayerIndex()}!";
+                        }
+                    }
+                };
 
                 // Add the GraphicsView to the container
-                ButtonContainer.Children.Add(triangleButton);
-                i++;
+                ButtonContainer.Children.Add(triangleGraphic);
+                currentPlayerIndex++;
             }
-
-            int j = 0;
-            Point centerPoint = shapesPoints[0][0];
-            foreach (var points in shapesPoints)
+        }
+    
+        private void CreateLabels()
+        {
+            var players = ServiceLocator<Context>.Instance.PlayerVMs;
+            int currentPlayerIndex = 0;
+            foreach (var player in players)
             {
-
-
                 var labelGraphicsView = new GraphicsView
                 {
-                    HeightRequest = 500,
-                    WidthRequest = 2000,
-                    Drawable = new TextDrawable($"Label {j}", j * 72, centerPoint)
+                    Drawable = new TextDrawable(player.Player.Name, players.Count, currentPlayerIndex)
                 };
+                labelGraphicsView.InputTransparent = true;
 
                 ButtonContainer.Children.Add(labelGraphicsView);
 
-                j++;
+                currentPlayerIndex++;
             }
         }
-
-        private static bool IsPointInTriangle(PointF p, PointF p1, PointF p2, PointF p3)
-        {
-            // Calculate area of the entire triangle
-            float area = Math.Abs((p1.X * (p2.Y - p3.Y) + p2.X * (p3.Y - p1.Y) + p3.X * (p1.Y - p2.Y)) / 2.0f);
-
-            // Calculate area of sub-triangle [P, P1, P2]
-            float area1 = Math.Abs((p.X * (p1.Y - p2.Y) + p1.X * (p2.Y - p.Y) + p2.X * (p.Y - p1.Y)) / 2.0f);
-
-            // Calculate area of sub-triangle [P, P2, P3]
-            float area2 = Math.Abs((p.X * (p2.Y - p3.Y) + p2.X * (p3.Y - p.Y) + p3.X * (p.Y - p2.Y)) / 2.0f);
-
-            // Calculate area of sub-triangle [P, P3, P1]
-            float area3 = Math.Abs((p.X * (p3.Y - p1.Y) + p3.X * (p1.Y - p.Y) + p1.X * (p.Y - p3.Y)) / 2.0f);
-
-            // If sum of sub-triangle areas equals original triangle area, point is inside
-            return Math.Abs(area - (area1 + area2 + area3)) < 0.01f;
-        }
-
     }
 }
