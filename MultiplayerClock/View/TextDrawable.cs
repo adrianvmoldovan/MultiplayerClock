@@ -18,7 +18,7 @@ namespace MultiplayerClock.View
         public TextDrawable(string text, int totalNumberOfPlayers, int currentPlayerIndex)
         {
             Text = text;
-            TriangleDegrees = (360 / totalNumberOfPlayers);
+            TriangleDegrees = 360 / totalNumberOfPlayers;
             Degrees = TriangleDegrees * currentPlayerIndex;
         }
 

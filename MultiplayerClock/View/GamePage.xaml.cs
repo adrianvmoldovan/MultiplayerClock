@@ -15,19 +15,19 @@ namespace MultiplayerClock
             _triangleDrawables = new List<TriangleDrawable>();
 
             CreateTriangles();
-            CreateLabels();
+            CreateNameFields();
         }
 
         private IList<TriangleDrawable> _triangleDrawables;
 
         private void CreateTriangles()
         {
-            var players = ServiceLocator<Context>.Instance.PlayerVMs;
+            var playerVMs = ServiceLocator<Context>.Instance.PlayerVMs;
 
             int currentPlayerIndex = 0;
-            foreach (var player in players)
+            foreach (var playerVM in playerVMs)
             {
-                var triangleDrawable = new TriangleDrawable(player.Player.Color, players.Count, currentPlayerIndex);
+                var triangleDrawable = new TriangleDrawable(playerVM.Player.Color, playerVMs.Count, currentPlayerIndex);
                 _triangleDrawables.Add(triangleDrawable);
                 // Create a new GraphicsView
                 var triangleGraphic = new GraphicsView
@@ -53,13 +53,26 @@ namespace MultiplayerClock
                     }
                 };
 
+                //var grid = new Grid
+                //{
+                //    WidthRequest = triangleGraphic.WidthRequest,
+                //    HeightRequest = triangleGraphic.HeightRequest
+                //};
+
+                var timeLabelCreator = new TimeLabelCreator();
+                var label = timeLabelCreator.GetLabel(playerVMs.Count, currentPlayerIndex, (float)triangleGraphic.WidthRequest, (float)triangleGraphic.HeightRequest);
+
+                label.BindingContext = playerVM;
+                label.SetBinding(Label.TextProperty, nameof(PlayerVM.TimeDisplay));
+
                 // Add the GraphicsView to the container
                 ButtonContainer.Children.Add(triangleGraphic);
+                ButtonContainer.Children.Add(label);
                 currentPlayerIndex++;
             }
         }
     
-        private void CreateLabels()
+        private void CreateNameFields()
         {
             var players = ServiceLocator<Context>.Instance.PlayerVMs;
             int currentPlayerIndex = 0;

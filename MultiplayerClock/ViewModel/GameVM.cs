@@ -16,6 +16,7 @@ namespace MultiplayerClock.ViewModel
 
         public GameVM() 
         {
+            PlayerVMs[0].StartTimer();
         }
 
         public ObservableCollection<PlayerVM> PlayerVMs => ServiceLocator<Context>.Instance.PlayerVMs;

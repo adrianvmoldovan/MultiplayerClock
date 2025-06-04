@@ -15,10 +15,14 @@ namespace MultiplayerClock.ViewModel
         private Player _Player;
         private IDispatcherTimer _Timer;
         private TimeSpan _Time;
+        private bool _IsIncreasing;
+        private bool _IsPaused;
 
         public PlayerVM(Player player)
         {
             _Player = player;
+            _IsIncreasing = true;
+            _IsPaused = false;
             var dispatcher = Dispatcher.GetForCurrentThread();
             if (dispatcher != null)
             {
@@ -63,17 +67,22 @@ namespace MultiplayerClock.ViewModel
 
         private void OnTimerTick(object? sender, EventArgs e)
         {
-            IncreaseTime();
+            if (_IsIncreasing)
+                IncreaseTime();
+            else
+                DecreaseTime();
         }
 
         private void IncreaseTime()
         {
-            Time += TimeSpan.FromSeconds(1);
+            if(!_IsPaused)
+                Time += TimeSpan.FromSeconds(1);
         }
 
         private void DecreaseTime()
         {
-            Time -= TimeSpan.FromSeconds(1);
+            if(!_IsPaused)
+                Time -= TimeSpan.FromSeconds(1);
         }
 
         public void StartTimer()
