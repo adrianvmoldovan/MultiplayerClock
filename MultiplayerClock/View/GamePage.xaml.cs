@@ -12,15 +12,15 @@ namespace MultiplayerClock
 			InitializeComponent();
 			BindingContext = vm;
 
-            _triangleDrawables = new List<TriangleDrawable>();
+            _TriangleDrawables = new List<TriangleDrawable>();
 
-            CreateTriangles();
+            CreateTriangles(vm);
             CreateNameFields();
         }
 
-        private IList<TriangleDrawable> _triangleDrawables;
+        private IList<TriangleDrawable> _TriangleDrawables;
 
-        private void CreateTriangles()
+        private void CreateTriangles(GameVM vm)
         {
             var playerVMs = ServiceLocator<Context>.Instance.PlayerVMs;
 
@@ -28,7 +28,7 @@ namespace MultiplayerClock
             foreach (var playerVM in playerVMs)
             {
                 var triangleDrawable = new TriangleDrawable(playerVM.Player.Color, playerVMs.Count, currentPlayerIndex);
-                _triangleDrawables.Add(triangleDrawable);
+                _TriangleDrawables.Add(triangleDrawable);
                 // Create a new GraphicsView
                 var triangleGraphic = new GraphicsView
                 {
@@ -44,11 +44,15 @@ namespace MultiplayerClock
                         var tapPoint = e.Touches[0];
                         var pointF = new PointF((float)tapPoint.X, (float)tapPoint.Y);
 
-                        var touchedTriangles = _triangleDrawables.Where(triangle => { return triangle.IsPointInTriangle(pointF); });
+                        var touchedTriangles = _TriangleDrawables.Where(triangle => { return triangle.IsPointInTriangle(pointF); });
 
                         if (touchedTriangles.Count() > 0)
                         {
-                            ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {touchedTriangles.First().GetPlayerIndex()}!";
+                            int touchedPlayerIndex = touchedTriangles.First().GetPlayerIndex();
+
+                            vm.SetPlayer(touchedPlayerIndex);
+
+                            ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {touchedPlayerIndex}!";
                         }
                     }
                 };

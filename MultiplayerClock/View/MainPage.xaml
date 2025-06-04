@@ -18,7 +18,7 @@
     <ContentPage.Content>
         <Grid
             x:Name="MainGrid"
-            RowDefinitions   ="Auto, Auto, *, Auto, Auto"
+            RowDefinitions   ="Auto, Auto, Auto, *, Auto, Auto"
             ColumnDefinitions="*, *"
             RowSpacing       ="30"
             Padding          ="30">
@@ -28,7 +28,14 @@
                 VerticalOptions  ="Center"
                 HorizontalOptions="Center"
                 FontSize         ="20"/>
-            
+
+            <Label 
+                Grid.Row         ="1"
+                Text             ="Direction"
+                VerticalOptions  ="Center"
+                HorizontalOptions="Center"
+                FontSize         ="20"/>
+
             <Picker 
                 Grid.Column            ="1"
                 Title                  ="Game Type"
@@ -37,9 +44,18 @@
                 FontSize               ="20"
                 ItemsSource            ="{Binding AvailableGameTypes}"
                 SelectedItem           ="{Binding SelectedGameType}"/>
+            <Picker 
+                Grid.Row               ="1"
+                Grid.Column            ="1"
+                Title                  ="Game Type"
+                VerticalOptions        ="Center"
+                HorizontalTextAlignment="Center"
+                FontSize               ="20"
+                ItemsSource            ="{Binding AvailableDirections}"
+                SelectedItem           ="{Binding SelectedDirection}"/>
 
             <Grid
-                Grid.Row         ="1"
+                Grid.Row         ="2"
                 Grid.ColumnSpan  ="2"
                 ColumnDefinitions="Auto, .7*, .3*"
                 Padding          ="5"
@@ -60,7 +76,7 @@
             </Grid>
 
             <CollectionView 
-                Grid.Row       ="2"
+                Grid.Row       ="3"
                 Grid.Column    ="0"
                 Grid.ColumnSpan="2"
                 ItemsSource    ="{Binding PlayerVMs}">
@@ -84,7 +100,7 @@
             </CollectionView>
 
             <Grid
-                Grid.Row         ="3"
+                Grid.Row         ="4"
                 Grid.Column      ="1"
                 ColumnSpacing    ="2"
                 HorizontalOptions="End"
@@ -102,7 +118,7 @@
 
             <Button
                 Text             ="START"
-                Grid.Row         ="4"
+                Grid.Row         ="5"
                 FontSize         ="40"
                 Grid.ColumnSpan  ="2"
                 HorizontalOptions="Center"

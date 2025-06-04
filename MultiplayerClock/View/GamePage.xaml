@@ -18,6 +18,8 @@
                 RowSpacing       ="30"
                 Padding          ="30">
                 <Button
+                    x:Name="ForwardBtn"
+                    Command="{Binding NextPlayerCommand}"
                     Grid.Column="0"
                     Text="⏪"
                     FontSize="45"
@@ -25,6 +27,8 @@
                 
                 </Button>
                 <Button
+                    x:Name="BacwardBtn"
+                    Command="{Binding PreviousPlayerCommand}"
                     Grid.Column="1"
                     Text="⏩"
                     FontSize="45"

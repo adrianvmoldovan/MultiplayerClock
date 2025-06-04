@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MultiplayerClock.Model;
 using MultiplayerClock.Model.Colors;
+using MultiplayerClock.Model.Enums;
 using MultiplayerClock.View;
 using MultiplayerClock.ViewModel.Services;
 
@@ -23,11 +24,10 @@ namespace MultiplayerClock.ViewModel
             "Emi" ,
         };
 
-        private GameType       _SelectedGameType  ;
-        private List<GameType> _AvailableGameTypes;
-        private bool           _UseSameTime       ;
-        private string         _NewPlayerName     ;
-        private PossibleColor  _NewPlayerColor    ;
+        private List<GameType>  _AvailableGameTypes ;
+        private List<Direction> _AvailableDirections;
+        private string          _NewPlayerName      ;
+        private PossibleColor   _NewPlayerColor     ;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -44,16 +44,27 @@ namespace MultiplayerClock.ViewModel
                 PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[index++], pc)));
             });
 
-            _SelectedGameType   = GameType.Classic;
-            _AvailableGameTypes = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
-            _UseSameTime        = true;
-            _NewPlayerName      = "Player name";
-            _NewPlayerColor     = colorManager.ReservePossibleColors(1).First();
+            _AvailableGameTypes  = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
+            _AvailableDirections = new List<Direction> { Direction.Clockwise, Direction.CounterClockwise };
+            _NewPlayerName       = "Player name";
+            _NewPlayerColor      = colorManager.ReservePossibleColors(1).First();
 
             AddPlayerCommand    = new Command(AddPlayer);
             DeletePlayerCommand = new Command<PlayerVM>(DeletePlayer);
             SelectColorCommand  = new Command<PlayerVM>(SelectColor);
             StartGameCommand    = new Command(StartGame);
+
+            ServiceLocator<Context>.Instance.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(SelectedGameType))
+                    OnPropertyChanged(nameof(SelectedGameType));
+
+                if (e.PropertyName == nameof(Direction))
+                    OnPropertyChanged(nameof(Direction));
+
+                if (e.PropertyName == nameof(UseSameTime))
+                    OnPropertyChanged(nameof(UseSameTime));
+            };
         }
 
         public ICommand AddPlayerCommand    { get; private set; }
@@ -63,11 +74,31 @@ namespace MultiplayerClock.ViewModel
 
         public GameType SelectedGameType
         {
-            get { return _SelectedGameType; }
+            get => ServiceLocator<Context>.Instance.SelectedGameType;
             set
             {
-                _SelectedGameType = value;
+                ServiceLocator<Context>.Instance.SelectedGameType = value;
                 OnPropertyChanged(nameof(SelectedGameType));
+            }
+        }
+
+        public Direction SelectedDirection
+        {
+            get => ServiceLocator<Context>.Instance.SelectedDirection;
+            set
+            {
+                ServiceLocator<Context>.Instance.SelectedDirection = value;
+                OnPropertyChanged(nameof(SelectedDirection));
+            }
+        }
+
+        public bool UseSameTime
+        {
+            get { return ServiceLocator<Context>.Instance.UseSameTime; }
+            set
+            {
+                ServiceLocator<Context>.Instance.UseSameTime = value;
+                OnPropertyChanged(nameof(UseSameTime));
             }
         }
 
@@ -81,13 +112,13 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
-        public bool UseSameTime
+        public List<Direction> AvailableDirections
         {
-            get { return _UseSameTime; }
+            get { return _AvailableDirections; }
             set
             {
-                _UseSameTime = value;
-                OnPropertyChanged(nameof(UseSameTime));
+                _AvailableDirections = value;
+                OnPropertyChanged(nameof(AvailableDirections));
             }
         }
 

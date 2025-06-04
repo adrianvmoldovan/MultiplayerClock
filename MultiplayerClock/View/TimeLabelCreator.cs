@@ -23,7 +23,7 @@ namespace MultiplayerClock.View
             float triangleDegrees = 360 / totalNumberOfPlayers;
             float degrees = triangleDegrees * currentPlayerIndex;
 
-            float centerX = 150/*width / 2*/;
+            float centerX = 140/*width / 2*/;
             //float centerY = 150/*height / 2*/;
 
             float radius = centerX;

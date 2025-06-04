@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultiplayerClock.Model
+namespace MultiplayerClock.Model.Enums
 {
     public enum GameType
     {
