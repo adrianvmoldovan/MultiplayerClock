@@ -61,6 +61,7 @@ namespace MultiplayerClock.ViewModel
         }
 
         public string TimeDisplay => $"{Time.Minutes:D2}:{Time.Seconds:D2}";
+        public string MinutesTimeDisplay => $"{Time.Minutes:D2}";
 
         public ICommand IncreaseTimeCommand => new RelayCommand(IncreaseTime);
         public ICommand DecreaseTimeCommand => new RelayCommand(DecreaseTime);

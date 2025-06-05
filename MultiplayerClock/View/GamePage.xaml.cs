@@ -16,9 +16,11 @@ namespace MultiplayerClock
 
             CreateTriangles(vm);
             CreateNameFields();
+            CreatePauseBTN(vm);
         }
 
         private IList<TriangleDrawable> _TriangleDrawables;
+        private PauseBTNDrawable? _PauseBTNDrawable;
 
         private void CreateTriangles(GameVM vm)
         {
@@ -92,6 +94,32 @@ namespace MultiplayerClock
 
                 currentPlayerIndex++;
             }
+        }
+
+        private void CreatePauseBTN(GameVM vm)
+        {
+            _PauseBTNDrawable = new PauseBTNDrawable();
+            var pauseBTNGraphicsView = new GraphicsView
+            {
+                Drawable = _PauseBTNDrawable
+            };
+
+            pauseBTNGraphicsView.StartInteraction += (s, e) =>
+            {
+                if (e.Touches.Count() > 0)
+                {
+                    var tapPoint = e.Touches[0];
+                    var pointF = new PointF((float)tapPoint.X, (float)tapPoint.Y);
+
+                    bool isInsideCircle = _PauseBTNDrawable.IsPointInCircle(pointF);
+
+                    vm.PlayPause();
+
+                    ResultLabel.Text = $"Pause Button Pressed!";
+                }
+            };
+
+            ButtonContainer.Children.Add(pauseBTNGraphicsView);
         }
     }
 }

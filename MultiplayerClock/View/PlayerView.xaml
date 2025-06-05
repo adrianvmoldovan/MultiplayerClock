@@ -21,12 +21,12 @@
     
     <Grid
         Grid.Column="2"
-        ColumnDefinitions="Auto, Auto, .3*"
+        ColumnDefinitions="Auto, .1*, *"
         ColumnSpacing    ="2"
         Padding          ="0">
         
         <Label
-            Text             ="{Binding Player.Time}"
+            Text             ="{Binding TimeDisplay}"
             FontSize         ="22"
             HorizontalOptions="Center"
             VerticalOptions  ="Center"/>

@@ -20,6 +20,7 @@ namespace MultiplayerClock.ViewModel
             PlayerVMs[0].StartTimer();
             NextPlayerCommand = new Command(NextPlayer);
             PreviousPlayerCommand = new Command(PreviousPlayer);
+            ServiceLocator<Context>.Instance.IsPaused = false;
         }
 
         public ICommand NextPlayerCommand { get; private set; }
@@ -63,24 +64,43 @@ namespace MultiplayerClock.ViewModel
 
         public void SetPlayer(int nextPlayerIndex)
         {
-            if (nextPlayerIndex < 0 || nextPlayerIndex >= PlayerVMs.Count)
+            bool isPaused = ServiceLocator<Context>.Instance.IsPaused;
+            if (!isPaused)
             {
-                throw new ArgumentOutOfRangeException(nameof(nextPlayerIndex), "Player index is out of range.");
-            }
-            int playerIndex = 0;
-            foreach (var player in PlayerVMs)
-            {
-                if (playerIndex == nextPlayerIndex)
+                if (nextPlayerIndex < 0 || nextPlayerIndex >= PlayerVMs.Count)
                 {
-                    player.StartTimer();
-                    _CurrentPlayerIndex = nextPlayerIndex;
+                    throw new ArgumentOutOfRangeException(nameof(nextPlayerIndex), "Player index is out of range.");
                 }
-                else
+                int playerIndex = 0;
+                foreach (var player in PlayerVMs)
                 {
-                    player.StopTimer();
-                }
+                    if (playerIndex == nextPlayerIndex)
+                    {
+                        player.StartTimer();
+                        _CurrentPlayerIndex = nextPlayerIndex;
+                    }
+                    else
+                    {
+                        player.StopTimer();
+                    }
 
-                playerIndex++;
+                    playerIndex++;
+                }
+            }
+        }
+
+        public void PlayPause()
+        {
+            bool isPaused = !ServiceLocator<Context>.Instance.IsPaused;
+            ServiceLocator<Context>.Instance.IsPaused = isPaused;
+
+            if (isPaused)
+            {
+                PlayerVMs[_CurrentPlayerIndex].StopTimer();
+            }
+            else
+            {
+                PlayerVMs[_CurrentPlayerIndex].StartTimer();
             }
         }
     }

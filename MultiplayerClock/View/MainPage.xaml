@@ -20,8 +20,8 @@
             x:Name="MainGrid"
             RowDefinitions   ="Auto, Auto, Auto, *, Auto, Auto"
             ColumnDefinitions="*, *"
-            RowSpacing       ="30"
-            Padding          ="30">
+            RowSpacing       ="10"
+            Padding          ="15">
 
             <Label 
                 Text             ="Game type"
@@ -65,6 +65,7 @@
                     BackgroundColor="{Binding NewPlayerColor.Color}"/>
                 <Entry
                     Grid.Column="1"
+                    FontSize   ="22"
                     HorizontalTextAlignment="Center"
                     Text       ="{Binding NewPlayerName}"/>
                 <Button

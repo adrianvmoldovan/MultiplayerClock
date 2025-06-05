@@ -15,15 +15,29 @@ namespace MultiplayerClock.ViewModel.Services
     {
         public Context() 
         {
-            _SelectedGameType = GameType.Classic;
+            _SelectedGameType  = GameType.Classic;
             _SelectedDirection = Direction.Clockwise;
-            _UseSameTime      = true;
-            ColorsManager     = new ColorsManager();
+            _UseSameTime       = true;
+            _IsPaused          = true;
+            ColorsManager      = new ColorsManager();
         }
         public ObservableCollection<PlayerVM> PlayerVMs { get; } = new();
         public Player? CurrentPlayer { get; set; }
         public ColorsManager ColorsManager { get; set; }
 
+        private bool _IsPaused;
+        public bool IsPaused
+        {
+            get => _IsPaused;
+            set
+            {
+                if (_IsPaused != value)
+                {
+                    _IsPaused = value;
+                    OnPropertyChanged(nameof(IsPaused));
+                }
+            }
+        }
 
         private GameType _SelectedGameType;
         public GameType SelectedGameType
