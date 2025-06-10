@@ -39,31 +39,7 @@ namespace MultiplayerClock
 
                 };
 
-                triangleGraphic.StartInteraction += (s, e) =>
-                {
-                    if (e.Touches.Count() > 0)
-                    {
-                        var tapPoint = e.Touches[0];
-                        var pointF = new PointF((float)tapPoint.X, (float)tapPoint.Y);
-
-                        var touchedTriangles = _TriangleDrawables.Where(triangle => { return triangle.IsPointInTriangle(pointF); });
-
-                        if (touchedTriangles.Count() > 0)
-                        {
-                            int touchedPlayerIndex = touchedTriangles.First().GetPlayerIndex();
-
-                            vm.SetPlayer(touchedPlayerIndex);
-
-                            ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {touchedPlayerIndex}!";
-                        }
-                    }
-                };
-
-                //var grid = new Grid
-                //{
-                //    WidthRequest = triangleGraphic.WidthRequest,
-                //    HeightRequest = triangleGraphic.HeightRequest
-                //};
+                triangleGraphic.StartInteraction += (s, e) => OnPauseButtonInteraction(s, e, vm);
 
                 var timeLabelCreator = new TimeLabelCreator();
                 var label = timeLabelCreator.GetLabel(playerVMs.Count, currentPlayerIndex, (float)triangleGraphic.WidthRequest, (float)triangleGraphic.HeightRequest);
@@ -104,22 +80,39 @@ namespace MultiplayerClock
                 Drawable = _PauseBTNDrawable
             };
 
-            pauseBTNGraphicsView.StartInteraction += (s, e) =>
-            {
-                if (e.Touches.Count() > 0)
-                {
-                    var tapPoint = e.Touches[0];
-                    var pointF = new PointF((float)tapPoint.X, (float)tapPoint.Y);
-
-                    bool isInsideCircle = _PauseBTNDrawable.IsPointInCircle(pointF);
-
-                    vm.PlayPause();
-
-                    ResultLabel.Text = $"Pause Button Pressed!";
-                }
-            };
+            pauseBTNGraphicsView.StartInteraction += (s, e) => OnPauseButtonInteraction(s, e, vm);
 
             ButtonContainer.Children.Add(pauseBTNGraphicsView);
+        }
+
+        private void OnPauseButtonInteraction(object? sender, TouchEventArgs e, GameVM vm)
+        {
+            if (e.Touches.Count() > 0 && _PauseBTNDrawable != null)
+            {
+                var tapPoint = e.Touches[0];
+                var pointF = new PointF((float)tapPoint.X, (float)tapPoint.Y);
+
+                bool isInsideCircle = _PauseBTNDrawable.IsPointInCircle(pointF);
+
+                if (isInsideCircle)
+                {
+                    vm.PlayPause();
+                    ResultLabel.Text = $"Pause Button Pressed!";
+                }
+                else
+                {
+                    var touchedTriangles = _TriangleDrawables.Where(triangle => { return triangle.IsPointInTriangle(pointF); });
+
+                    if (touchedTriangles.Count() > 0)
+                    {
+                        int touchedPlayerIndex = touchedTriangles.First().GetPlayerIndex();
+
+                        vm.SetPlayer(touchedPlayerIndex);
+
+                        ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {touchedPlayerIndex}!";
+                    }
+                }
+            }
         }
     }
 }
