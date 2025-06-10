@@ -9,7 +9,7 @@
             RowDefinitions =".7*, .3*"> 
             <Grid x:Name="ButtonContainer"
                 Grid.Row="0">
-                <Label x:Name="ResultLabel" Text="Tap the triangle!" FontSize="18" HorizontalOptions="Center" />
+                <Label x:Name="ResultLabel" Text="Tap the triangle!" FontSize="30" HorizontalOptions="Center" />
                 <!-- Dynamically added triangle buttons will go here -->
             </Grid>
             <Grid
@@ -21,18 +21,28 @@
                     x:Name="ForwardBtn"
                     Command="{Binding NextPlayerCommand}"
                     Grid.Column="0"
-                    Text="⏪"
-                    FontSize="45"
-                    Margin="5">
+                    Text="≪"
+                    TextColor="White"
+                    FontSize="65"
+                    Margin="0"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="0"
+                    BorderColor="White"
+                    BorderWidth="2">
                 
                 </Button>
                 <Button
                     x:Name="BacwardBtn"
                     Command="{Binding PreviousPlayerCommand}"
                     Grid.Column="1"
-                    Text="⏩"
-                    FontSize="45"
-                    Margin="5">
+                    Text="≫"
+                    TextColor="White"
+                    FontSize="65"
+                    Margin="0"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="0"
+                    BorderColor="White"
+                    BorderWidth="2">
 
                 </Button>
             </Grid>

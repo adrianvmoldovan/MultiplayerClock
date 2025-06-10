@@ -15,36 +15,44 @@ namespace MultiplayerClock.View
             _Radius = 50;
             _CenterX = 0;
             _CenterY = 0;
+            _IsPaused = false;
         }
 
         private int _Radius;
         private float _CenterX;
         private float _CenterY;
+        private bool _IsPaused;
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-            //canvas.FontSize = 24;
-            //canvas.FontColor = Colors.White;
-
             _CenterX = dirtyRect.Center.X;
             _CenterY = dirtyRect.Center.Y;
 
             //draw a circle
-            canvas.StrokeColor = Colors.Black;
-            canvas.StrokeSize = 2;
             canvas.FillColor = (Color)((Microsoft.Maui.Controls.Application.Current?.Resources["Primary"])?? Colors.Transparent);
-            //canvas.DrawCircle(centerX, centerY, 50);
-            //fill the circle
             canvas.FillCircle(_CenterX, _CenterY, _Radius);
 
             float symbolSize = 45;
+            canvas.StrokeColor = Colors.White;
+            canvas.StrokeSize = 2;
+            canvas.DrawCircle(_CenterX, _CenterY, _Radius);
+
             canvas.FontSize = symbolSize;
+            canvas.FontColor = Colors.White;
             var textRect = new RectF(
                 _CenterX - symbolSize / 2,
                 _CenterY - symbolSize / 2,
                 symbolSize,
                 symbolSize);
-            canvas.DrawString("⏸", textRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+
+            string symbol = _IsPaused ? "▶" : "| |";
+
+            canvas.DrawString(symbol, textRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+        }
+
+        public void TogglePauseBtn()
+        {
+            _IsPaused = !_IsPaused;
         }
 
         public bool IsPointInCircle(PointF p)

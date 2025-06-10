@@ -17,10 +17,15 @@ namespace MultiplayerClock
             CreateTriangles(vm);
             CreateNameFields();
             CreatePauseBTN(vm);
+
+            string currentPlayerName = vm.GetCurrentPlayerName();
+
+            ResultLabel.Text = $"It is {currentPlayerName}'s turn!";
         }
 
         private IList<TriangleDrawable> _TriangleDrawables;
         private PauseBTNDrawable? _PauseBTNDrawable;
+        private GraphicsView? _PauseBTNGraphicsView;
 
         private void CreateTriangles(GameVM vm)
         {
@@ -36,7 +41,6 @@ namespace MultiplayerClock
                 {
                     BackgroundColor = Colors.Transparent,
                     Drawable = triangleDrawable, // Assign the custom drawable
-
                 };
 
                 triangleGraphic.StartInteraction += (s, e) => OnPauseButtonInteraction(s, e, vm);
@@ -75,14 +79,14 @@ namespace MultiplayerClock
         private void CreatePauseBTN(GameVM vm)
         {
             _PauseBTNDrawable = new PauseBTNDrawable();
-            var pauseBTNGraphicsView = new GraphicsView
+            _PauseBTNGraphicsView = new GraphicsView
             {
                 Drawable = _PauseBTNDrawable
             };
 
-            pauseBTNGraphicsView.StartInteraction += (s, e) => OnPauseButtonInteraction(s, e, vm);
+            _PauseBTNGraphicsView.StartInteraction += (s, e) => OnPauseButtonInteraction(s, e, vm);
 
-            ButtonContainer.Children.Add(pauseBTNGraphicsView);
+            ButtonContainer.Children.Add(_PauseBTNGraphicsView);
         }
 
         private void OnPauseButtonInteraction(object? sender, TouchEventArgs e, GameVM vm)
@@ -98,6 +102,8 @@ namespace MultiplayerClock
                 {
                     vm.PlayPause();
                     ResultLabel.Text = $"Pause Button Pressed!";
+                    _PauseBTNDrawable.TogglePauseBtn();
+                    _PauseBTNGraphicsView?.Invalidate();    //force a redraw of the pause drawable
                 }
                 else
                 {
@@ -109,7 +115,9 @@ namespace MultiplayerClock
 
                         vm.SetPlayer(touchedPlayerIndex);
 
-                        ResultLabel.Text = $"Triangle Button Pressed. You pressed Triangle Button {touchedPlayerIndex}!";
+                        string currentPlayerName = vm.GetCurrentPlayerName();
+
+                        ResultLabel.Text = $"It is {currentPlayerName}'s turn!";
                     }
                 }
             }

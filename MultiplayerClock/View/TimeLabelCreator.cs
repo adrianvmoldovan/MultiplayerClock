@@ -23,8 +23,7 @@ namespace MultiplayerClock.View
             float triangleDegrees = 360 / totalNumberOfPlayers;
             float degrees = triangleDegrees * currentPlayerIndex;
 
-            float centerX = 140/*width / 2*/;
-            //float centerY = 150/*height / 2*/;
+            float centerX = 130;
 
             float radius = centerX;
 
@@ -41,7 +40,7 @@ namespace MultiplayerClock.View
 
             label.TranslateTo(x, y);
             label.Rotation = degrees;
-            label.FontSize = 24;
+            label.FontSize = 35;
 
             return label;
         }

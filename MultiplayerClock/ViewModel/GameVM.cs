@@ -89,6 +89,13 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
+        public string GetCurrentPlayerName()
+        {
+            string currentPlayerName = PlayerVMs[_CurrentPlayerIndex].Player.Name;
+
+            return currentPlayerName;
+        }
+
         public void PlayPause()
         {
             bool isPaused = !ServiceLocator<Context>.Instance.IsPaused;

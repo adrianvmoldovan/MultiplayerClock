@@ -50,7 +50,7 @@ namespace MultiplayerClock.View
             canvas.FillPath(shapePath);
 
             canvas.StrokeColor = Colors.White;
-            canvas.StrokeSize = 1;
+            canvas.StrokeSize = 2;
             canvas.DrawPath(shapePath);
         }
 
