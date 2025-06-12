@@ -14,13 +14,24 @@ namespace MultiplayerClock.ViewModel
 {
     public class GameVM
     {
-        public GameVM() 
+        public GameVM()
         {
             _CurrentPlayerIndex = 0;
             PlayerVMs[0].StartTimer();
             NextPlayerCommand = new Command(NextPlayer);
             PreviousPlayerCommand = new Command(PreviousPlayer);
-            ServiceLocator<Context>.Instance.IsPaused = false;
+            var context = ServiceLocator<Context>.Instance;
+            context.IsPaused = false;
+            context.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(context.GameStarted))
+                {
+                    if (!context.GameStarted)
+                    {
+                        StopGame();
+                    }
+                }
+            };
         }
 
         public ICommand NextPlayerCommand { get; private set; }
@@ -109,6 +120,16 @@ namespace MultiplayerClock.ViewModel
             {
                 PlayerVMs[_CurrentPlayerIndex].StartTimer();
             }
+        }
+
+        public void StopGame()
+        {
+            foreach(var player in PlayerVMs)
+            {
+                player.Reset();
+            }
+            _CurrentPlayerIndex = 0;
+            ServiceLocator<Context>.Instance.IsPaused = false;
         }
     }
 }

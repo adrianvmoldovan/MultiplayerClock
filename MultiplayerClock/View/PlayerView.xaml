@@ -7,7 +7,7 @@
         ColumnDefinitions="Auto, .6*, .4*"
         ColumnSpacing    ="3"
         Padding          ="5">
-            
+
     <Button
         BackgroundColor ="{Binding Player.Color}"
         Command         ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=SelectColorCommand}"
@@ -17,11 +17,12 @@
         Grid.Column="1"
         Text       ="{Binding Player.Name}"
         FontSize   ="22"
-        HorizontalTextAlignment="Center"/>
+        HorizontalTextAlignment="Center"
+        IsEnabled="{Binding AreFieldsEditable}"/>
     
     <Grid
         Grid.Column="2"
-        ColumnDefinitions="Auto, .1*, *"
+        ColumnDefinitions="Auto, *"
         ColumnSpacing    ="2"
         Padding          ="0">
         
@@ -30,16 +31,10 @@
             FontSize         ="22"
             HorizontalOptions="Center"
             VerticalOptions  ="Center"/>
-        <Label
-            Grid.Column      ="1"
-            Text             ="min"
-            HorizontalOptions="Center"
-            VerticalOptions  ="Center"/>
         <Stepper  
             Grid.Column ="2"
-            Value       ="30"
-            Minimum     ="1"
-            Maximum     ="120"
-            Increment   ="1"/>
+            Value       ="{Binding Minutes, Mode=TwoWay}"
+            Increment   ="1"
+            IsEnabled   ="{Binding IsTimeAvailable}"/>
     </Grid>
 </Grid>

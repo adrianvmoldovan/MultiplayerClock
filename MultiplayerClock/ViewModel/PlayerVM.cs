@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MultiplayerClock.Model;
+using MultiplayerClock.ViewModel.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,7 @@ namespace MultiplayerClock.ViewModel
             _Player = player;
             _IsIncreasing = true;
             _IsPaused = false;
+            Minutes = 0;
             var dispatcher = Dispatcher.GetForCurrentThread();
             if (dispatcher != null)
             {
@@ -34,6 +36,22 @@ namespace MultiplayerClock.ViewModel
             {
                 throw new InvalidOperationException("Dispatcher is not available.");
             }
+
+            var context = ServiceLocator<Context>.Instance;
+            AreFieldsEditable = !context.GameStarted;
+            context.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(context.GameStarted))
+                {
+                    AreFieldsEditable = !context.GameStarted;
+                    IsTimeAvailable = !context.GameStarted && context.SelectedGameType == Model.Enums.GameType.SuddenDeath;
+                }
+                if(e.PropertyName == nameof(context.SelectedGameType))
+                {
+                    IsTimeAvailable = !context.GameStarted && context.SelectedGameType == Model.Enums.GameType.SuddenDeath;
+                    Minutes = context.SelectedGameType == Model.Enums.GameType.SuddenDeath ? 5 : 0;
+                }
+            };
         }
 
         public Player Player 
@@ -43,6 +61,48 @@ namespace MultiplayerClock.ViewModel
             {
                 _Player = value;
                 OnPropertyChanged(nameof(Player));
+            }
+        }
+
+        private bool _AreFieldsEditable = true;
+        public bool AreFieldsEditable
+        {
+            get => _AreFieldsEditable;
+            set
+            {
+                if (_AreFieldsEditable != value)
+                {
+                    _AreFieldsEditable = value;
+                    OnPropertyChanged(nameof(AreFieldsEditable));
+                }
+            }
+        }
+
+        private bool _IsTimeAvailable = false;
+        public bool IsTimeAvailable
+        {
+            get => _IsTimeAvailable;
+            set
+            {
+                if (_IsTimeAvailable != value)
+                {
+                    _IsTimeAvailable = value;
+                    OnPropertyChanged(nameof(IsTimeAvailable));
+                }
+            }
+        }
+
+        private int _Minutes;
+        public int Minutes
+        {
+            get => _Minutes;
+            set
+            {
+                int minValue = ServiceLocator<Context>.Instance.SelectedGameType == Model.Enums.GameType.SuddenDeath ? 1 : 0;
+                int clamped = Math.Max(minValue, Math.Min(99, value));
+                _Minutes = clamped;
+                Time = TimeSpan.FromMinutes(_Minutes);
+                OnPropertyChanged(nameof(Minutes));
             }
         }
 
@@ -94,6 +154,14 @@ namespace MultiplayerClock.ViewModel
         public void StopTimer()
         {
             _Timer.Stop();
+        }
+
+        public void Reset()
+        {
+            _Timer.Stop();
+
+            var context = ServiceLocator<Context>.Instance;
+            Minutes = context.SelectedGameType == Model.Enums.GameType.SuddenDeath ? 5 : 0;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

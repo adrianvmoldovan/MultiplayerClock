@@ -19,11 +19,26 @@ namespace MultiplayerClock.ViewModel.Services
             _SelectedDirection = Direction.Clockwise;
             _UseSameTime       = true;
             _IsPaused          = true;
+            _GameStarted       = false;
             ColorsManager      = new ColorsManager();
         }
         public ObservableCollection<PlayerVM> PlayerVMs { get; } = new();
         public Player? CurrentPlayer { get; set; }
         public ColorsManager ColorsManager { get; set; }
+
+        private bool _GameStarted;
+        public bool GameStarted
+        {
+            get => _GameStarted;
+            set
+            {
+                if (_GameStarted != value)
+                {
+                    _GameStarted = value;
+                    OnPropertyChanged(nameof(GameStarted));
+                }
+            }
+        }
 
         private bool _IsPaused;
         public bool IsPaused

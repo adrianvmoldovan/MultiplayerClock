@@ -24,11 +24,6 @@ namespace MultiplayerClock.ViewModel
             "Emi" ,
         };
 
-        private List<GameType>  _AvailableGameTypes ;
-        private List<Direction> _AvailableDirections;
-        private string          _NewPlayerName      ;
-        private PossibleColor   _NewPlayerColor     ;
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<PlayerVM> PlayerVMs => ServiceLocator<Context>.Instance.PlayerVMs;
@@ -47,12 +42,14 @@ namespace MultiplayerClock.ViewModel
             _AvailableGameTypes  = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
             _AvailableDirections = new List<Direction> { Direction.Clockwise, Direction.CounterClockwise };
             _NewPlayerName       = "Player name";
+            _StartStopButtonName = "START";
             _NewPlayerColor      = colorManager.ReservePossibleColors(1).First();
 
             AddPlayerCommand    = new Command(AddPlayer);
             DeletePlayerCommand = new Command<PlayerVM>(DeletePlayer);
             SelectColorCommand  = new Command<PlayerVM>(SelectColor);
             StartGameCommand    = new Command(StartGame);
+            StopGameCommand     = new Command(StopGame);
 
             ServiceLocator<Context>.Instance.PropertyChanged += (s, e) =>
             {
@@ -64,6 +61,9 @@ namespace MultiplayerClock.ViewModel
 
                 if (e.PropertyName == nameof(UseSameTime))
                     OnPropertyChanged(nameof(UseSameTime));
+
+                if (e.PropertyName == nameof(context.GameStarted))
+                    AreFieldsEditable = !context.GameStarted;
             };
         }
 
@@ -71,6 +71,7 @@ namespace MultiplayerClock.ViewModel
         public ICommand DeletePlayerCommand { get; private set; }
         public ICommand SelectColorCommand  { get; private set; }
         public ICommand StartGameCommand    { get; private set; }
+        public ICommand StopGameCommand     { get; private set; }
 
         public GameType SelectedGameType
         {
@@ -102,6 +103,21 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
+        private bool _AreFieldsEditable = true;
+        public bool AreFieldsEditable
+        {
+            get => _AreFieldsEditable;
+            set
+            {
+                if (_AreFieldsEditable != value)
+                {
+                    _AreFieldsEditable = value;
+                    OnPropertyChanged(nameof(AreFieldsEditable));
+                }
+            }
+        }
+
+        private List<GameType> _AvailableGameTypes;
         public List<GameType> AvailableGameTypes
         {
             get { return _AvailableGameTypes; }
@@ -112,6 +128,7 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
+        private List<Direction> _AvailableDirections;
         public List<Direction> AvailableDirections
         {
             get { return _AvailableDirections; }
@@ -122,6 +139,7 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
+        private string _NewPlayerName;
         public string NewPlayerName
         {
             get { return _NewPlayerName; }
@@ -132,6 +150,18 @@ namespace MultiplayerClock.ViewModel
             }
         }
 
+        private string _StartStopButtonName;
+        public string StartStopButtonName
+        {
+            get { return _StartStopButtonName; }
+            set
+            {
+                _StartStopButtonName = value;
+                OnPropertyChanged(nameof(StartStopButtonName));
+            }
+        }
+
+        private PossibleColor _NewPlayerColor;
         public PossibleColor NewPlayerColor
         {
             get { return _NewPlayerColor; }
@@ -172,7 +202,16 @@ namespace MultiplayerClock.ViewModel
 
         private void StartGame()
         {
+            ServiceLocator<Context>.Instance.GameStarted = true;
+            StartStopButtonName = "RESUME";
+
             Shell.Current.GoToAsync(nameof(GamePage));
+        }
+
+        private void StopGame()
+        {
+            ServiceLocator<Context>.Instance.GameStarted = false;
+            StartStopButtonName = "START";
         }
     }
 }

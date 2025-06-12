@@ -43,7 +43,8 @@
                 HorizontalTextAlignment="Center"
                 FontSize               ="20"
                 ItemsSource            ="{Binding AvailableGameTypes}"
-                SelectedItem           ="{Binding SelectedGameType}"/>
+                SelectedItem           ="{Binding SelectedGameType}"
+                IsEnabled              ="{Binding AreFieldsEditable}"/>
             <Picker 
                 Grid.Row               ="1"
                 Grid.Column            ="1"
@@ -52,7 +53,8 @@
                 HorizontalTextAlignment="Center"
                 FontSize               ="20"
                 ItemsSource            ="{Binding AvailableDirections}"
-                SelectedItem           ="{Binding SelectedDirection}"/>
+                SelectedItem           ="{Binding SelectedDirection}"
+                IsEnabled              ="{Binding AreFieldsEditable}"/>
 
             <Grid
                 Grid.Row         ="2"
@@ -64,16 +66,18 @@
                 <Button
                     BackgroundColor="{Binding NewPlayerColor.Color}"/>
                 <Entry
-                    Grid.Column="1"
-                    FontSize   ="22"
+                    Grid.Column            ="1"
+                    FontSize               ="22"
                     HorizontalTextAlignment="Center"
-                    Text       ="{Binding NewPlayerName}"/>
+                    Text                   ="{Binding NewPlayerName}"
+                    IsEnabled              ="{Binding AreFieldsEditable}"/>
                 <Button
                     Grid.Column="2"
                     Text       ="Add"
                     Padding    ="10"
                     FontSize   ="18"
-                    Command    ="{Binding AddPlayerCommand}"/>
+                    Command    ="{Binding AddPlayerCommand}"
+                    IsEnabled  ="{Binding AreFieldsEditable}"/>
             </Grid>
 
             <CollectionView 
@@ -91,7 +95,8 @@
                                     Text            ="Delete"
                                     BackgroundColor ="Red"
                                     Command         ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=DeletePlayerCommand}"
-                                    CommandParameter="{Binding .}"/>
+                                    CommandParameter="{Binding .}"
+                                    IsEnabled       ="{Binding AreFieldsEditable}"/>
                                 </SwipeItems>
                             </SwipeView.RightItems>
                             <local:PlayerView />
@@ -114,18 +119,33 @@
                 <CheckBox
                     Grid.Column    ="1"
                     VerticalOptions="Center"
-                    IsChecked      ="{Binding UseSameTime}"/>
+                    IsChecked      ="{Binding UseSameTime}"
+                    IsEnabled      ="{Binding AreFieldsEditable}"/>
             </Grid>
 
-            <Button
-                Text             ="START"
-                Grid.Row         ="5"
-                FontSize         ="40"
-                Grid.ColumnSpan  ="2"
-                HorizontalOptions="Center"
-                VerticalOptions  ="Center"
-                Command          ="{Binding StartGameCommand}">
-            </Button>
+            <Grid
+                Grid.Row="5"
+                ColumnDefinitions=".4*, .4*"
+                Padding="5"
+                Grid.ColumnSpan  ="2">
+                <Button
+                    Text             ="{Binding StartStopButtonName}"
+                    Grid.Column      ="0"
+                    FontSize         ="40"
+                    HorizontalOptions="Center"
+                    VerticalOptions  ="Center"
+                    Command          ="{Binding StartGameCommand}">
+                </Button>
+                <Button
+                    Text             ="STOP"
+                    BackgroundColor  ="Red"
+                    Grid.Column      ="1"
+                    FontSize         ="40"
+                    HorizontalOptions="Center"
+                    VerticalOptions  ="Center"
+                    Command          ="{Binding StopGameCommand}">
+                </Button>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
