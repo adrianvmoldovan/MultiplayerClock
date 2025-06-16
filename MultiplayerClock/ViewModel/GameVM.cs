@@ -26,10 +26,10 @@ namespace MultiplayerClock.ViewModel
             {
                 if (e.PropertyName == nameof(context.GameStarted))
                 {
-                    if (!context.GameStarted)
-                    {
+                    if (context.GameStarted)
+                        Play();
+                    else
                         StopGame();
-                    }
                 }
             };
         }
@@ -113,13 +113,19 @@ namespace MultiplayerClock.ViewModel
             ServiceLocator<Context>.Instance.IsPaused = isPaused;
 
             if (isPaused)
-            {
-                PlayerVMs[_CurrentPlayerIndex].StopTimer();
-            }
+                Pause();
             else
-            {
-                PlayerVMs[_CurrentPlayerIndex].StartTimer();
-            }
+                Play();
+        }
+
+        private void Play()
+        {
+            PlayerVMs[_CurrentPlayerIndex].StartTimer();
+        }
+
+        private void Pause()
+        {
+            PlayerVMs[_CurrentPlayerIndex].StopTimer();
         }
 
         public void StopGame()

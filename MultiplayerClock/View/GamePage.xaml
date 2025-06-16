@@ -17,25 +17,30 @@
                 ColumnDefinitions=".3*, .7*"
                 RowSpacing       ="30"
                 Padding          ="30">
-                <Button
-                    x:Name="ForwardBtn"
-                    Command="{Binding NextPlayerCommand}"
+                <Border
                     Grid.Column="0"
-                    Text="≪"
-                    TextColor="White"
-                    FontSize="65"
-                    Margin="0"
                     BackgroundColor="{StaticResource Primary}"
-                    CornerRadius="0"
-                    BorderColor="White"
-                    BorderWidth="2">
-                
-                </Button>
+                    Stroke="White"
+                    StrokeThickness="2"
+                    StrokeShape="Rectangle"
+                    Margin="0">
+                    <Label
+                        Text="previous"
+                        TextColor="White"
+                        FontSize="25"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Rotation="-90">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NextPlayerCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Border>
                 <Button
                     x:Name="BacwardBtn"
                     Command="{Binding PreviousPlayerCommand}"
                     Grid.Column="1"
-                    Text="≫"
+                    Text="NEXT"
                     TextColor="White"
                     FontSize="65"
                     Margin="0"
