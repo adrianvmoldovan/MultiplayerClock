@@ -119,8 +119,8 @@
                 <CheckBox
                     Grid.Column    ="1"
                     VerticalOptions="Center"
-                    IsChecked      ="{Binding UseSameTime}"
-                    IsEnabled      ="{Binding AreFieldsEditable}"/>
+                    IsChecked      ="{Binding UseSameTime, Mode=TwoWay}"
+                    IsEnabled      ="{Binding UseSameTimeSensitivity, Mode=TwoWay}"/>
             </Grid>
 
             <Grid

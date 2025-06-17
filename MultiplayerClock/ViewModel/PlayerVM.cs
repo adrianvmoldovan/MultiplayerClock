@@ -17,12 +17,13 @@ namespace MultiplayerClock.ViewModel
         private IDispatcherTimer _Timer;
         private TimeSpan _Time;
         private bool _IsPaused;
-
+        private bool _UseSameTimeRequested;
         public PlayerVM(Player player)
         {
             _Player = player;
             _IsIncreasing = true;
             _IsPaused = false;
+            _UseSameTimeRequested = false;
             Minutes = 0;
             var dispatcher = Dispatcher.GetForCurrentThread();
             if (dispatcher != null)
@@ -43,13 +44,21 @@ namespace MultiplayerClock.ViewModel
                 if (e.PropertyName == nameof(context.GameStarted))
                 {
                     AreFieldsEditable = !context.GameStarted;
-                    IsTimeAvailable = !context.GameStarted && context.SelectedGameType == Model.Enums.GameType.SuddenDeath;
                 }
                 if(e.PropertyName == nameof(context.SelectedGameType))
                 {
-                    IsTimeAvailable = !context.GameStarted && context.SelectedGameType == Model.Enums.GameType.SuddenDeath;
                     Minutes = context.SelectedGameType == Model.Enums.GameType.SuddenDeath ? 5 : 0;
                     IsIncreasing = context.SelectedGameType == Model.Enums.GameType.Classic;
+                }
+                if (e.PropertyName == nameof(context.GameStarted) ||
+                    e.PropertyName == nameof(context.SelectedGameType) ||
+                    e.PropertyName == nameof(context.UseSameTime))
+                {
+                    IsTimeAvailable = 
+                        !context.GameStarted && 
+                        context.SelectedGameType == Model.Enums.GameType.SuddenDeath &&
+                        !_UseSameTimeRequested;
+
                 }
             };
         }
@@ -176,6 +185,11 @@ namespace MultiplayerClock.ViewModel
 
             var context = ServiceLocator<Context>.Instance;
             Minutes = context.SelectedGameType == Model.Enums.GameType.SuddenDeath ? 5 : 0;
+        }
+
+        public void UseSameTimeRequested(bool useSameTime)
+        {
+            _UseSameTimeRequested = useSameTime;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

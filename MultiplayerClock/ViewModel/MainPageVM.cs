@@ -45,6 +45,8 @@ namespace MultiplayerClock.ViewModel
             _StartStopButtonName = "START";
             _NewPlayerColor      = colorManager.ReservePossibleColors(1).First();
 
+            UseSameTimeSensitivity = false;
+
             AddPlayerCommand    = new Command(AddPlayer);
             DeletePlayerCommand = new Command<PlayerVM>(DeletePlayer);
             SelectColorCommand  = new Command<PlayerVM>(SelectColor);
@@ -58,6 +60,11 @@ namespace MultiplayerClock.ViewModel
 
                 if (e.PropertyName == nameof(Direction))
                     OnPropertyChanged(nameof(Direction));
+
+                if (e.PropertyName == nameof(context.GameStarted) || e.PropertyName == nameof(context.SelectedGameType))
+                {
+                    UseSameTimeSensitivity = !context.GameStarted && context.SelectedGameType == GameType.SuddenDeath;
+                }
 
                 if (e.PropertyName == nameof(UseSameTime))
                     OnPropertyChanged(nameof(UseSameTime));
@@ -98,6 +105,10 @@ namespace MultiplayerClock.ViewModel
             get { return ServiceLocator<Context>.Instance.UseSameTime; }
             set
             {
+                if (value)
+                    ApplyUseSameTime();
+                else
+                    RemoveUseSameTime();
                 ServiceLocator<Context>.Instance.UseSameTime = value;
                 OnPropertyChanged(nameof(UseSameTime));
             }
@@ -113,6 +124,26 @@ namespace MultiplayerClock.ViewModel
                 {
                     _AreFieldsEditable = value;
                     OnPropertyChanged(nameof(AreFieldsEditable));
+                }
+            }
+        }
+
+        private bool _UseSameTimeSensitivity;
+        public bool UseSameTimeSensitivity
+        {
+            get => _UseSameTimeSensitivity;
+            set
+            {
+                if (_UseSameTimeSensitivity != value)
+                {
+                    _UseSameTimeSensitivity = value;
+                    OnPropertyChanged(nameof(UseSameTimeSensitivity));
+                    // Force UI to re-evaluate IsChecked binding
+                    if (UseSameTime)
+                    {
+                        UseSameTime = false;
+                        UseSameTime = true;
+                    }
                 }
             }
         }
@@ -212,6 +243,24 @@ namespace MultiplayerClock.ViewModel
         {
             ServiceLocator<Context>.Instance.GameStarted = false;
             StartStopButtonName = "START";
+        }
+
+        private void ApplyUseSameTime()
+        {
+            int minutes = PlayerVMs[0].Minutes;
+            foreach (var player in PlayerVMs.Skip(1))
+            {
+                player.Minutes = minutes;
+                player.UseSameTimeRequested(true);
+            }
+        }
+
+        private void RemoveUseSameTime()
+        {
+            foreach (var player in PlayerVMs.Skip(1))
+            {
+                player.UseSameTimeRequested(false);
+            }
         }
     }
 }
