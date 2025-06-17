@@ -16,7 +16,6 @@ namespace MultiplayerClock.ViewModel
         private Player _Player;
         private IDispatcherTimer _Timer;
         private TimeSpan _Time;
-        private bool _IsIncreasing;
         private bool _IsPaused;
 
         public PlayerVM(Player player)
@@ -50,6 +49,7 @@ namespace MultiplayerClock.ViewModel
                 {
                     IsTimeAvailable = !context.GameStarted && context.SelectedGameType == Model.Enums.GameType.SuddenDeath;
                     Minutes = context.SelectedGameType == Model.Enums.GameType.SuddenDeath ? 5 : 0;
+                    IsIncreasing = context.SelectedGameType == Model.Enums.GameType.Classic;
                 }
             };
         }
@@ -88,6 +88,20 @@ namespace MultiplayerClock.ViewModel
                 {
                     _IsTimeAvailable = value;
                     OnPropertyChanged(nameof(IsTimeAvailable));
+                }
+            }
+        }
+
+        private bool _IsIncreasing = true;
+        public bool IsIncreasing
+        {
+            get => _IsIncreasing;
+            set
+            {
+                if (_IsIncreasing != value)
+                {
+                    _IsIncreasing = value;
+                    OnPropertyChanged(nameof(IsIncreasing));
                 }
             }
         }
