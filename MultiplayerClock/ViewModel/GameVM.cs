@@ -12,12 +12,13 @@ using System.Windows.Input;
 
 namespace MultiplayerClock.ViewModel
 {
-    public class GameVM
+    public class GameVM : INotifyPropertyChanged
     {
         public GameVM()
         {
             _CurrentPlayerIndex = 0;
-            PlayerVMs[0].StartTimer();
+            PlayerVMs[_CurrentPlayerIndex].StartTimer();
+            _currentPlayerVM = PlayerVMs[_CurrentPlayerIndex];
             NextPlayerCommand = new Command(NextPlayer);
             PreviousPlayerCommand = new Command(PreviousPlayer);
             var context = ServiceLocator<Context>.Instance;
@@ -38,6 +39,20 @@ namespace MultiplayerClock.ViewModel
         public ICommand PreviousPlayerCommand { get; private set; }
         private int _CurrentPlayerIndex;
         public ObservableCollection<PlayerVM> PlayerVMs => ServiceLocator<Context>.Instance.PlayerVMs;
+
+        private PlayerVM _currentPlayerVM;
+        public PlayerVM CurrentPlayerVM
+        {
+            get => _currentPlayerVM;
+            set
+            {
+                if (_currentPlayerVM != value)
+                {
+                    _currentPlayerVM = value;
+                    OnPropertyChanged(nameof(CurrentPlayerVM));
+                }
+            }
+        }
 
         private void NextPlayer()
         {
@@ -89,6 +104,7 @@ namespace MultiplayerClock.ViewModel
                     {
                         player.StartTimer();
                         _CurrentPlayerIndex = nextPlayerIndex;
+                        CurrentPlayerVM = player;
                     }
                     else
                     {
@@ -136,6 +152,12 @@ namespace MultiplayerClock.ViewModel
             }
             _CurrentPlayerIndex = 0;
             ServiceLocator<Context>.Instance.IsPaused = false;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

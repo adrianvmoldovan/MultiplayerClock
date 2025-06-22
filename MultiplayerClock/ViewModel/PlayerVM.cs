@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace MultiplayerClock.ViewModel
 {
@@ -20,11 +21,14 @@ namespace MultiplayerClock.ViewModel
         private bool _UseSameTimeRequested;
         public PlayerVM(Player player)
         {
-            _Player = player;
-            _IsIncreasing = true;
-            _IsPaused = false;
+            _Player               = player;
+            Name                  = player.Name;
+            Color                 = player.Color;
+            _IsIncreasing         = true;
+            _IsPaused             = false;
             _UseSameTimeRequested = false;
-            Minutes = 0;
+            Minutes               = 0;
+
             var dispatcher = Dispatcher.GetForCurrentThread();
             if (dispatcher != null)
             {
@@ -58,10 +62,12 @@ namespace MultiplayerClock.ViewModel
                         !context.GameStarted && 
                         context.SelectedGameType == Model.Enums.GameType.SuddenDeath &&
                         !_UseSameTimeRequested;
-
                 }
             };
         }
+
+        public Color Color { get; private set; }
+        public string Name { get; private set; }
 
         public Player Player 
         { 

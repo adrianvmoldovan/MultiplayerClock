@@ -6,19 +6,39 @@
     <ScrollView>
         <Grid
             x:Name="MainGameGrid"
-            RowDefinitions =".7*, .3*"> 
+            RowDefinitions =".3*, .4*, .3*">
+            <Grid
+                HorizontalOptions="Fill"
+                Margin="0, 0, 0, 30"
+                RowDefinitions=".48*, .52*">
+                <Label
+                    Text="{Binding CurrentPlayerVM.Name}"
+                    BackgroundColor="{Binding CurrentPlayerVM.Color}"
+                    Margin="30, 30, 30, 0"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    FontSize="60"
+                    HorizontalOptions="Fill"/>
+                <Label
+                    Grid.Row="1"
+                    Text="{Binding CurrentPlayerVM.TimeDisplay}"
+                    Margin="30, 0, 30, 03"
+                    BackgroundColor="{Binding CurrentPlayerVM.Color}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    FontSize="80"
+                    HorizontalOptions="Fill"/>
+            </Grid>
             <Grid x:Name="ButtonContainer"
-                Grid.Row="0">
-                <Label x:Name="ResultLabel" Text="Tap the triangle!" FontSize="30" HorizontalOptions="Center" />
+                Grid.Row="1">
                 <!-- Dynamically added triangle buttons will go here -->
             </Grid>
             <Grid
-                Grid.Row="1"
+                Grid.Row="2"
                 ColumnDefinitions=".3*, .7*"
                 RowSpacing       ="30"
                 Padding          ="30">
                 <Border
-                    Grid.Column="0"
                     BackgroundColor="{StaticResource Primary}"
                     Stroke="White"
                     StrokeThickness="2"
@@ -48,7 +68,6 @@
                     CornerRadius="0"
                     BorderColor="White"
                     BorderWidth="2">
-
                 </Button>
             </Grid>
         </Grid>

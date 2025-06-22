@@ -19,8 +19,6 @@ namespace MultiplayerClock
             CreatePauseBTN(vm);
 
             string currentPlayerName = vm.GetCurrentPlayerName();
-
-            ResultLabel.Text = $"It is {currentPlayerName}'s turn!";
         }
 
         private IList<TriangleDrawable> _TriangleDrawables;
@@ -101,7 +99,6 @@ namespace MultiplayerClock
                 if (isInsideCircle)
                 {
                     vm.PlayPause();
-                    ResultLabel.Text = $"Pause Button Pressed!";
                     _PauseBTNDrawable.TogglePauseBtn();
                     _PauseBTNGraphicsView?.Invalidate();    //force a redraw of the pause drawable
                 }
@@ -116,8 +113,6 @@ namespace MultiplayerClock
                         vm.SetPlayer(touchedPlayerIndex);
 
                         string currentPlayerName = vm.GetCurrentPlayerName();
-
-                        ResultLabel.Text = $"It is {currentPlayerName}'s turn!";
                     }
                 }
             }
