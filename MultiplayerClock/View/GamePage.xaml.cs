@@ -76,7 +76,8 @@ namespace MultiplayerClock
 
         private void CreatePauseBTN(GameVM vm)
         {
-            _PauseBTNDrawable = new PauseBTNDrawable();
+            bool isPaused = ServiceLocator<Context>.Instance.IsPaused;
+            _PauseBTNDrawable = new PauseBTNDrawable(isPaused);
             _PauseBTNGraphicsView = new GraphicsView
             {
                 Drawable = _PauseBTNDrawable

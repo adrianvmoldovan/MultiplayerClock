@@ -10,12 +10,12 @@ namespace MultiplayerClock.View
 {
     public class PauseBTNDrawable : IDrawable
     {
-        public PauseBTNDrawable()
+        public PauseBTNDrawable(bool isPaused)
         {
             _Radius = 50;
             _CenterX = 0;
             _CenterY = 0;
-            _IsPaused = false;
+            _IsPaused = isPaused;
         }
 
         private int _Radius;
