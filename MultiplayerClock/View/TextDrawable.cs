@@ -9,17 +9,18 @@ namespace MultiplayerClock.View
     public class TextDrawable : IDrawable
     {
         public string Text { get; set; }
-        public Color TextColor { get; set; } = Colors.Black;
+        public Color TextColor { get; set; }
         public float FontSize { get; set; } = 24;
         public float Degrees { get; set; }
         public float TriangleDegrees { get; set; }
         public Point CenterPoint { get; set; }
 
-        public TextDrawable(string text, int totalNumberOfPlayers, int currentPlayerIndex)
+        public TextDrawable(string text, int totalNumberOfPlayers, int currentPlayerIndex, Color textColor)
         {
             Text = text;
             TriangleDegrees = 360 / totalNumberOfPlayers;
             Degrees = TriangleDegrees * currentPlayerIndex;
+            TextColor = textColor;
         }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)

@@ -34,15 +34,8 @@ namespace MultiplayerClock.ViewModel
 
             if (button != null && context != null && context.CurrentPlayer != null)
             {
-                //reset the player color
-                string previousColorName = context.CurrentPlayer.ColorName;
-                PossibleColor previousPossibleColor = context.ColorsManager.ReservePossibleColors(previousColorName);
-                context.ColorsManager.ReleasePossibleColor(previousPossibleColor);
-
-                //set the new player color
                 string colorName = button.AutomationId;
                 PossibleColor possibleColor = PossibleColors.First(c => c.Name == colorName);
-                context.ColorsManager.ReservePossibleColors(possibleColor);
                 context.CurrentPlayer.SetNewColor(possibleColor);
             }
 

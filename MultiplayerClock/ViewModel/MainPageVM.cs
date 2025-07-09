@@ -33,17 +33,17 @@ namespace MultiplayerClock.ViewModel
             var context      = ServiceLocator<Context>.Instance;
             var colorManager = context.ColorsManager;
 
-            int index = 0;
-            colorManager.ReservePossibleColors(4).ForEach(pc =>
-            {
-                PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[index++], pc)));
-            });
+            var colors = colorManager.GetPossibleColors("Rainbow");
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[0], colors[0])));
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[1], colors[1])));
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[2], colors[2])));
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[3], colors[3])));
 
             _AvailableGameTypes  = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
             _AvailableDirections = new List<Direction> { Direction.Clockwise, Direction.CounterClockwise };
             _NewPlayerName       = "Player name";
             _StartStopButtonName = "START";
-            _NewPlayerColor      = colorManager.ReservePossibleColors(1).First();
+            _NewPlayerColor      = colorManager.GetPossibleColors("Rainbow").First();
 
             UseSameTimeSensitivity = false;
 

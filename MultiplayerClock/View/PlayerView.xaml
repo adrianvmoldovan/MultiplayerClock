@@ -9,7 +9,7 @@
         Padding          ="5">
 
     <Button
-        BackgroundColor ="{Binding Player.Color}"
+        BackgroundColor ="{Binding Player.BkColor}"
         Command         ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=SelectColorCommand}"
         CommandParameter="{Binding .}"/>
     

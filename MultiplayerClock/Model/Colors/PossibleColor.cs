@@ -9,40 +9,18 @@ namespace MultiplayerClock.Model.Colors
 {
     public class PossibleColor : INotifyPropertyChanged
     {
-        private bool _IsUsed;
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public PossibleColor(Color color, string name)
+        public PossibleColor(FwBkColor color, string name)
         {
-            Color = color;
-            IsUsed = false;
+            BkColor = color.BkColor;
+            FwColor = color.FwColor;
             Name = name;
         }
 
 
-        public Color Color { get; private set; }
-
-        public bool IsUsed
-        {
-            get
-            {
-                return _IsUsed;
-            }
-            private set
-            {
-                _IsUsed = value;
-                OnPropertyChanged(nameof(IsUsed));
-            }
-        }
-
-        public void SetUsability(bool newValue, IPossibleColorSetter setter)
-        {
-            if (setter != null)
-            {
-                IsUsed = newValue;
-            }
-        }
+        public Color BkColor { get; private set; }
+        public Color FwColor { get; private set; }
 
         public string Name { get; set; }
 

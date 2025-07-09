@@ -8,23 +8,23 @@ namespace MultiplayerClock.Model.Colors.Schemes
 {
     public class BarierScheme : BaseColorScheme
     {
-        List<string> _HexColors;
+        List<Tuple<string, string>> _HexColors;
         public BarierScheme()
         {
-            _HexColors = new List<string>()
+            _HexColors = new ()
             {
-                "f64f39",
-                "e7b80a",
-                "e4d5aa",
-                "1587d8",
-                "524bb3",
-                "0abc89",
+                Tuple.Create("f64f39", "ffffff"),
+                Tuple.Create("e7b80a", "ffffff"),
+                Tuple.Create("e4d5aa", "ffffff"),
+                Tuple.Create("1587d8", "ffffff"),
+                Tuple.Create("524bb3", "ffffff"),
+                Tuple.Create("0abc89", "ffffff"),
             };
         }
 
-        public override List<Color> GetColors()
+        public override List<FwBkColor> GetColors()
         {
-            List<Color> colors = GetColors(_HexColors);
+            List<FwBkColor> colors = GetColors(_HexColors);
 
             return colors;
         }

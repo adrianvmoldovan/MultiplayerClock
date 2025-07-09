@@ -8,23 +8,23 @@ namespace MultiplayerClock.Model.Colors.Schemes
 {
     public class DivergingScheme : BaseColorScheme
     {
-        List<string> _HexColors;
+        List<Tuple<string, string>> _HexColors;
         public DivergingScheme()
         {
-            _HexColors = new List<string>()
+            _HexColors = new List<Tuple<string, string>>()
             {
-                "41afaa",
-                "466eb4",
-                "00a0e1",
-                "d7642c",
-                "af4b91",
-                "e6a532",
+                Tuple.Create("41afaa", "ffffff"),
+                Tuple.Create("466eb4", "ffffff"),
+                Tuple.Create("00a0e1", "ffffff"),
+                Tuple.Create("d7642c", "ffffff"),
+                Tuple.Create("af4b91", "ffffff"),
+                Tuple.Create("e6a532", "ffffff"),
             };
         }
 
-        public override List<Color> GetColors()
+        public override List<FwBkColor> GetColors()
         {
-            List<Color> colors = GetColors(_HexColors);
+            List<FwBkColor> colors = GetColors(_HexColors);
 
             return colors;
         }

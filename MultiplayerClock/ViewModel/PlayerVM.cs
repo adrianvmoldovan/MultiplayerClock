@@ -23,7 +23,7 @@ namespace MultiplayerClock.ViewModel
         {
             _Player               = player;
             Name                  = player.Name;
-            Color                 = player.Color;
+            Color                 = player.BkColor;
             _IsIncreasing         = true;
             _IsPaused             = false;
             _UseSameTimeRequested = false;

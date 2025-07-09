@@ -64,7 +64,7 @@
                 ColumnSpacing    ="3">
                 
                 <Button
-                    BackgroundColor="{Binding NewPlayerColor.Color}"/>
+                    BackgroundColor="{Binding NewPlayerColor.BkColor}"/>
                 <Entry
                     Grid.Column            ="1"
                     FontSize               ="22"

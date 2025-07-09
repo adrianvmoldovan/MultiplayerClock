@@ -8,7 +8,7 @@ namespace MultiplayerClock.Model.Colors.Schemes
 {
     public interface IColorScheme
     {
-        List<Color> GetColors();
+        List<FwBkColor> GetColors();
         string GetName();
     }
 }

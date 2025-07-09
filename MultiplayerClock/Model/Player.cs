@@ -4,17 +4,21 @@ using Microsoft.Maui.Dispatching;
 
 namespace MultiplayerClock.Model
 {
-    public class Player
+    public class Player : INotifyPropertyChanged
     {
         private string   _Name;
         private string   _ColorName;
-        private Color    _Color;
+        private Color    _BkColor;
+        private Color    _FwColor;
 
         public Player(string name, PossibleColor possibleColor, int minutes = 1)
         {
-            _Name          = name;
-            _Color         = possibleColor.Color;
-            _ColorName     = possibleColor.Name;
+            _Name      = name;
+            _BkColor   = possibleColor.BkColor;
+            BkColor = _BkColor;
+            _FwColor   = possibleColor.FwColor;
+            FwColor = _FwColor;
+            _ColorName = possibleColor.Name;
         }
 
         public string Name
@@ -26,12 +30,23 @@ namespace MultiplayerClock.Model
             }
         }
 
-        public Color Color
+        public Color BkColor
         {
-            get { return _Color; }
+            get { return _BkColor; }
             private set
             {
-                _Color = value;
+                _BkColor = value;
+                OnPropertyChanged(nameof(BkColor));
+            }
+        }
+
+        public Color FwColor
+        {
+            get { return _FwColor; }
+            private set
+            {
+                _FwColor = value;
+                OnPropertyChanged(nameof(FwColor));
             }
         }
 
@@ -46,8 +61,15 @@ namespace MultiplayerClock.Model
 
         public void SetNewColor(PossibleColor possibleColor)
         {
-            Color     = possibleColor.Color;
+            BkColor   = possibleColor.BkColor;
+            FwColor   = possibleColor.FwColor;
             ColorName = possibleColor.Name;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

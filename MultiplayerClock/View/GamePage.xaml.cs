@@ -32,7 +32,7 @@ namespace MultiplayerClock
             int currentPlayerIndex = 0;
             foreach (var playerVM in playerVMs)
             {
-                var triangleDrawable = new TriangleDrawable(playerVM.Player.Color, playerVMs.Count, currentPlayerIndex);
+                var triangleDrawable = new TriangleDrawable(playerVM.Player.BkColor, playerVMs.Count, currentPlayerIndex);
                 _TriangleDrawables.Add(triangleDrawable);
                 // Create a new GraphicsView
                 var triangleGraphic = new GraphicsView
@@ -64,7 +64,7 @@ namespace MultiplayerClock
             {
                 var labelGraphicsView = new GraphicsView
                 {
-                    Drawable = new TextDrawable(player.Player.Name, players.Count, currentPlayerIndex)
+                    Drawable = new TextDrawable(player.Player.Name, players.Count, currentPlayerIndex, player.Player.FwColor)
                 };
                 labelGraphicsView.InputTransparent = true;
 
