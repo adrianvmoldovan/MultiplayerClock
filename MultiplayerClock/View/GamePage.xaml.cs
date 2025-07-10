@@ -45,9 +45,10 @@ namespace MultiplayerClock
 
                 var timeLabelCreator = new TimeLabelCreator();
                 var label = timeLabelCreator.GetLabel(playerVMs.Count, currentPlayerIndex, (float)triangleGraphic.WidthRequest, (float)triangleGraphic.HeightRequest);
-
                 label.BindingContext = playerVM;
+                label.SetBinding(Label.TextColorProperty, "Player.FwColor");
                 label.SetBinding(Label.TextProperty, nameof(PlayerVM.TimeDisplay));
+                label.FontAttributes = FontAttributes.Bold;
 
                 // Add the GraphicsView to the container
                 ButtonContainer.Children.Add(triangleGraphic);

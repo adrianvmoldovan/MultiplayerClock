@@ -151,6 +151,7 @@ namespace MultiplayerClock.ViewModel
                 player.Reset();
             }
             _CurrentPlayerIndex = 0;
+            CurrentPlayerVM = PlayerVMs[_CurrentPlayerIndex];
             ServiceLocator<Context>.Instance.IsPaused = false;
         }
 

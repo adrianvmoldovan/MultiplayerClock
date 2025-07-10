@@ -13,14 +13,14 @@ namespace MultiplayerClock.Model.Colors.Schemes
         {
             _HexColors = new ()
             {
-                Tuple.Create("ff6961", "ffffff"),
-                Tuple.Create("ffb480", "ffffff"),
-                Tuple.Create("f8f38d", "ffffff"),
-                Tuple.Create("42d6a4", "ffffff"),
-                Tuple.Create("08cad1", "ffffff"),
-                Tuple.Create("59adf6", "ffffff"),
-                Tuple.Create("9d94ff", "ffffff"),
-                Tuple.Create("c780e8", "ffffff"),
+                Tuple.Create("ff6961", "000000"),
+                Tuple.Create("ffb480", "000000"),
+                Tuple.Create("f8f38d", "000000"),
+                Tuple.Create("42d6a4", "000000"),
+                Tuple.Create("08cad1", "000000"),
+                Tuple.Create("59adf6", "000000"),
+                Tuple.Create("9d94ff", "000000"),
+                Tuple.Create("c780e8", "000000"),
             };
         }
 

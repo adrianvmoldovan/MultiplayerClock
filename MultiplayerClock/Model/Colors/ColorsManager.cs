@@ -36,6 +36,7 @@ namespace MultiplayerClock.Model.Colors
 
         private void RegisterSchemes()
         {
+            _ColorSchemes.Add(new BasicScheme());
             _ColorSchemes.Add(new DivergingScheme());
             _ColorSchemes.Add(new BarierScheme());
             _ColorSchemes.Add(new RainbowScheme());

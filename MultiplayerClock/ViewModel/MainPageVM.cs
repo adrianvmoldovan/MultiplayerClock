@@ -33,17 +33,17 @@ namespace MultiplayerClock.ViewModel
             var context      = ServiceLocator<Context>.Instance;
             var colorManager = context.ColorsManager;
 
-            var colors = colorManager.GetPossibleColors("Rainbow");
-            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[0], colors[0])));
-            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[1], colors[1])));
-            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[2], colors[2])));
-            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[3], colors[3])));
+            var colors = colorManager.GetPossibleColors("Basic");
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[0], colors[0]), 0));
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[1], colors[1]), 1));
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[2], colors[2]), 2));
+            PlayerVMs.Add(new PlayerVM(new Player(_PlayerNames[3], colors[3]), 3));
 
             _AvailableGameTypes  = new List<GameType> { GameType.Classic, GameType.SuddenDeath };
             _AvailableDirections = new List<Direction> { Direction.Clockwise, Direction.CounterClockwise };
             _NewPlayerName       = "Player name";
             _StartStopButtonName = "START";
-            _NewPlayerColor      = colorManager.GetPossibleColors("Rainbow").First();
+            _NewPlayerColor      = colorManager.GetPossibleColors("Basic").Last();
 
             UseSameTimeSensitivity = false;
 
@@ -212,7 +212,8 @@ namespace MultiplayerClock.ViewModel
         {
             if (NewPlayerName != string.Empty && PlayerVMs.All(p => p.Player.Name != NewPlayerName) && PlayerVMs.Count < 8)
             {
-                PlayerVMs.Add(new PlayerVM(new Player(NewPlayerName, NewPlayerColor)));
+                int newPlayerIndex = PlayerVMs.Count;
+                PlayerVMs.Add(new PlayerVM(new Player(NewPlayerName, NewPlayerColor), newPlayerIndex));
             }
         }
 

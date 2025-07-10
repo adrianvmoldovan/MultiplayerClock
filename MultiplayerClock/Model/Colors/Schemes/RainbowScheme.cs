@@ -15,10 +15,10 @@ namespace MultiplayerClock.Model.Colors.Schemes
             {
                 Tuple.Create("e6261f", "ffffff"),
                 Tuple.Create("eb7532", "ffffff"),
-                Tuple.Create("f7d038", "ffffff"),
-                Tuple.Create("a3e048", "ffffff"),
-                Tuple.Create("49da9a", "ffffff"),
-                Tuple.Create("34bbe6", "ffffff"),
+                Tuple.Create("f7d038", "000000"),
+                Tuple.Create("a3e048", "000000"),
+                Tuple.Create("49da9a", "000000"),
+                Tuple.Create("34bbe6", "000000"),
                 Tuple.Create("4355db", "ffffff"),
                 Tuple.Create("d23be7", "ffffff"),
             };

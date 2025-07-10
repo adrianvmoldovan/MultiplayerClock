@@ -13,20 +13,24 @@
                 RowDefinitions=".48*, .52*">
                 <Label
                     Text="{Binding CurrentPlayerVM.Name}"
+                    TextColor="{Binding CurrentPlayerVM.Player.FwColor}"
                     BackgroundColor="{Binding CurrentPlayerVM.Color}"
                     Margin="30, 30, 30, 0"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     FontSize="60"
+                    FontAttributes="Bold"
                     HorizontalOptions="Fill"/>
                 <Label
                     Grid.Row="1"
                     Text="{Binding CurrentPlayerVM.TimeDisplay}"
+                    TextColor="{Binding CurrentPlayerVM.Player.FwColor}"
                     Margin="30, 0, 30, 0"
                     BackgroundColor="{Binding CurrentPlayerVM.Color}"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     FontSize="80"
+                    FontAttributes="Bold"
                     HorizontalOptions="Fill"/>
             </Grid>
             <Grid x:Name="ButtonContainer"

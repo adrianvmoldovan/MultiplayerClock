@@ -10,6 +10,11 @@
 
     <Button
         BackgroundColor ="{Binding Player.BkColor}"
+        Text            ="{Binding Index}"
+        TextColor       ="{Binding Player.FwColor}"
+        FontSize        ="22"
+        BorderColor     ="Gray"
+        BorderWidth     ="0.5"
         Command         ="{Binding Source={RelativeSource AncestorType={x:Type viewModel:MainPageVM}}, Path=SelectColorCommand}"
         CommandParameter="{Binding .}"/>
     

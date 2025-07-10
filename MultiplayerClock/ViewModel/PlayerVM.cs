@@ -19,7 +19,7 @@ namespace MultiplayerClock.ViewModel
         private TimeSpan _Time;
         private bool _IsPaused;
         private bool _UseSameTimeRequested;
-        public PlayerVM(Player player)
+        public PlayerVM(Player player, int index)
         {
             _Player               = player;
             Name                  = player.Name;
@@ -28,6 +28,7 @@ namespace MultiplayerClock.ViewModel
             _IsPaused             = false;
             _UseSameTimeRequested = false;
             Minutes               = 0;
+            Index                 = (index + 1).ToString();
 
             var dispatcher = Dispatcher.GetForCurrentThread();
             if (dispatcher != null)
@@ -62,6 +63,14 @@ namespace MultiplayerClock.ViewModel
                         !context.GameStarted && 
                         context.SelectedGameType == Model.Enums.GameType.SuddenDeath &&
                         !_UseSameTimeRequested;
+                }
+                if(e.PropertyName == nameof(context.PlayerVMs))
+                {
+                    //update the Index property based on the index of the player in the PlayerVMs
+                    var playerVMs = ServiceLocator<Context>.Instance.PlayerVMs;
+                    int index = playerVMs.IndexOf(this);
+                    if (index >= 0)
+                        Index = (index + 1).ToString();
                 }
             };
         }
@@ -103,6 +112,20 @@ namespace MultiplayerClock.ViewModel
                 {
                     _IsTimeAvailable = value;
                     OnPropertyChanged(nameof(IsTimeAvailable));
+                }
+            }
+        }
+
+        private string _Index = "0";
+        public string Index
+        {
+            get => _Index;
+            set
+            {
+                if (_Index != value)
+                {
+                    _Index = value;
+                    OnPropertyChanged(nameof(Index));
                 }
             }
         }
