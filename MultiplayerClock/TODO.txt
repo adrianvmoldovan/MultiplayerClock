@@ -1,0 +1,12 @@
+﻿- Add a button to toggle vibration on/off
+- Add a button to toggle sound on/off
+- Add sound when playing Sudden Death and the player has one minute, 30 seconds, and 10 seconds left
+- create client-server architecture
+- create app icon
+- Do not close the screen while playing
+- Do not kill the app if running in background
+- Next and Previous buttons to have the corresponding colors of the players
+- See if state machine pattenr will fit 
+- Implement the change of the player order
+- Save previous setup of the game (names and colors) and load it when the app is opened again
+- Option to save a game and add some details
